@@ -3,6 +3,7 @@ import { ContentBlock, HeroData, PageData } from "@/lib/entities/constants";
 import { GetStaticProps } from "next";
 import { getMarkup } from "@/lib/utils/markdown";
 import ReactMarkdown from "react-markdown";
+import Script from "next/script";
 
 interface HomeProps {
   hero: HeroData;
@@ -12,6 +13,8 @@ interface HomeProps {
 export default function Home({ hero, page }: HomeProps) {
   return (
     <main>
+      {/* include this script on '/' so that invited users can set a password */}
+      <Script src="https://identity.netlify.com/v1/netlify-identity-widget.js" />
       <section
         style={{
           textAlign: "center",
