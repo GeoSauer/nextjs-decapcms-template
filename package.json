@@ -6,7 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "export": "next export",
+    "start:static": "npm run build && npx serve@latest out -p 3001",
     "lint": "next lint"
   },
   "dependencies": {
