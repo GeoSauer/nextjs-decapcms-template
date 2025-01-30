@@ -1,6 +1,6 @@
 backend:
   name: git-gateway
-  repo: GeoSauer/next-decapcms-template
+  repo: GeoSauer/next-decapcms-template #TODO edit this to your own github_username/repo or store it in a secret if you're using a private repo
   branch: main
 media_folder: "public/images" # Location where files will be stored in the repo
 public_folder: "/images" # Public path for uploaded media

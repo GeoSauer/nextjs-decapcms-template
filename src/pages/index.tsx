@@ -4,13 +4,12 @@ import { GetStaticProps } from "next";
 import { getMarkup } from "@/lib/utils/markdown";
 import ReactMarkdown from "react-markdown";
 
-export default function Home({
-  heroContent,
-  pageContent,
-}: {
-  heroContent: HeroData;
-  pageContent: PageData;
-}) {
+interface HomeProps {
+  hero: HeroData;
+  page: PageData;
+}
+
+export default function Home({ hero, page }: HomeProps) {
   return (
     <main>
       <section
@@ -19,27 +18,27 @@ export default function Home({
           margin: "2rem 0",
         }}
       >
-        <h1>{heroContent.title}</h1>
-        <p>{heroContent.subtitle}</p>
-        {heroContent.backgroundImage && heroContent.backgroundImageAltText && (
+        <h1>{hero.title}</h1>
+        <p>{hero.subtitle}</p>
+        {hero.backgroundImage && hero.backgroundImageAltText && (
           <div
             style={{
               margin: "0 auto",
             }}
           >
             <Image
-              src={heroContent.backgroundImage}
-              alt={heroContent.backgroundImageAltText}
+              src={hero.backgroundImage}
+              alt={hero.backgroundImageAltText}
               width={300}
               height={300}
             />
           </div>
         )}
-        <button>{heroContent.buttonText}</button>
+        <button>{hero.buttonText}</button>
       </section>
       <section style={{ textAlign: "center" }}>
-        <h2 style={{ marginBottom: "2rem" }}>{pageContent.sectionTitle}</h2>
-        {pageContent.contents.map((block: ContentBlock, idx: number) => (
+        <h2 style={{ marginBottom: "2rem" }}>{page.sectionTitle}</h2>
+        {page.contents.map((block: ContentBlock, idx: number) => (
           <div key={`${block.title}-${idx}`} style={{ marginBottom: "2rem" }}>
             <h3>{block.title}</h3>
             <p>{block.subtitle}</p>
@@ -62,14 +61,14 @@ export const getStaticProps: GetStaticProps = async () => {
     return { notFound: true };
   }
 
-  const { data: heroContent } = heroMarkups;
-  const { data: pageContent } = pageMarkups;
+  const { data: hero } = heroMarkups;
+  const { data: page } = pageMarkups;
 
   // Return the data as props
   return {
     props: {
-      heroContent,
-      pageContent,
+      hero,
+      page,
     },
   };
 };
