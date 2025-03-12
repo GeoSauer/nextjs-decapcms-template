@@ -5,6 +5,9 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 ### TEMP NOTES ON SETUP
 
 - when deploying on Netlify set publish dir to 'out'
+- site config/identity/registration - choose between open or invite only
+- site config/identity/users - invite yourself/client
+- site config/identity/services - enable Git Gateway
 
 First, run the development server:
 
