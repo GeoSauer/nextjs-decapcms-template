@@ -4,7 +4,7 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 ### TEMP NOTES ON SETUP
 
-- when deploying on Netlify set read dir to 'out'
+- when deploying on Netlify set publish dir to 'out'
 
 First, run the development server:
 

@@ -2,6 +2,7 @@ backend:
   name: git-gateway
   repo: GeoSauer/nextjs-decapcms-template #TODO change to your GitHub/repo
   branch: main
+  identity_url: "https://nextjs-decapcms-template.netlify.app/.netlify/identity" #TODO change to your Netlify site URL
 media_folder: "public/images" # Location where files will be stored in the repo
 public_folder: "/images" # Public path for uploaded media
 # Here we define content structure
