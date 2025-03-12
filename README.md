@@ -2,6 +2,10 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 ## Getting Started
 
+### TEMP NOTES ON SETUP
+
+- when deploying on Netlify set read dir to 'out'
+
 First, run the development server:
 
 ```bash

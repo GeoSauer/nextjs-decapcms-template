@@ -1,6 +1,6 @@
 backend:
   name: git-gateway
-  repo: GeoSauer/next-decapcms-template #TODO edit this to your own github_username/repo or store it in a secret if you're using a private repo
+  repo: GeoSauer/nextjs-decapcms-template #TODO change to your GitHub/repo
   branch: main
 media_folder: "public/images" # Location where files will be stored in the repo
 public_folder: "/images" # Public path for uploaded media
@@ -24,15 +24,17 @@ collections:
               required: false,
             }
           - { label: "Button Text", name: "buttonText", widget: "string" }
-      - label: "Content Blocks"
-        name: "content_blocks"
-        file: "src/content/homepage/content_blocks.md"
+      - label: "Info Blocks"
+        name: "info_blocks"
+        file: "src/content/home-page/info_blocks.md"
+        create: true
         fields:
           - { label: "Section Title", name: "sectionTitle", widget: "string" }
-          - label: "Contents"
-            name: "contents"
-            widget: "list" # A list of content objects
+          - label: "Blocks"
+            label_singular: "Info Block"
+            name: "blocks"
+            widget: "list"
             fields:
               - { label: "Title", name: "title", widget: "string" }
               - { label: "Subtitle", name: "subtitle", widget: "string" }
-              - { label: "Section Content", name: "sectionContent", widget: "markdown" }
+              - { label: "Body", name: "body", widget: "markdown", required: false }

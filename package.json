@@ -7,13 +7,13 @@
     "build": "next build",
     "start": "next start",
     "start:static": "npm run build && npx serve@latest out -p 3001",
+    "generate:types": "node --import 'data:text/javascript,import { register } from \"node:module\"; import { pathToFileURL } from \"node:url\"; register(\"ts-node/esm\", pathToFileURL(\"./\"));' src/lib/utils/generate-types.mts",
     "lint": "next lint"
   },
   "dependencies": {
-    "@types/node": "^22.12.0",
-    "@types/react": "^19.0.8",
-    "@types/react-dom": "^19.0.3",
+    "fs": "^0.0.1-security",
     "gray-matter": "^4.0.3",
+    "js-yaml": "^4.1.0",
     "next": "15.1.6",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
@@ -21,8 +21,13 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
+    "@types/js-yaml": "^4.0.9",
+    "@types/node": "^22.13.10",
+    "@types/react": "^19.0.8",
+    "@types/react-dom": "^19.0.3",
     "eslint": "^9",
     "eslint-config-next": "15.1.6",
+    "ts-node": "^10.9.2",
     "typescript": "^5"
   }
 }

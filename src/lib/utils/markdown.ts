@@ -1,86 +1,80 @@
 import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
+import { transformKeys } from "./misc";
 
-export const getMarkup = (
-  directory: string,
-  filename: string
-): matter.GrayMatterFile<string> | null => {
-  /* Converts specific file to a gray-matter object */
+/**
+ * Reads and parses a markdown file safely.
+ */
+const readMarkdownFile = (filePath: string): { [key: string]: any; body: string } | null => {
   try {
-    const filePath = path.join(process.cwd(), directory, filename);
-
-    // Ensure file exists
     if (!fs.existsSync(filePath)) {
       console.warn(`File not found: ${filePath}`);
       return null;
     }
 
-    // Ensure file is .md
-    if (!filename.endsWith(".md")) {
-      console.warn(`Invalid file type: ${filename}`);
-      return null;
-    }
-
     const file = matter.read(filePath);
 
-    //Ensure file has valid content
     if (!file.content.trim() && !Object.keys(file.data).length) {
-      console.warn(`File is empty or missing valid content: ${filePath}`);
+      console.warn(`Skipping empty or invalid markdown file: ${filePath}`);
       return null;
     }
 
-    return file;
+    return { ...transformKeys(file.data), body: file.content };
   } catch (error) {
-    console.error(`Failed to read file: ${directory}/${filename}`, error);
+    console.error(`Error reading markdown file: ${filePath}`, error);
     return null;
   }
 };
 
-export const getFolderMarkups = (directory: string): matter.GrayMatterFile<string>[] | null => {
-  /* Converts all files in a directory to gray-matter objects */
+/**
+ * Converts a specific markdown file to a structured object.
+ */
+export const getMarkup = (directory: string, filename: string): Record<string, any> => {
+  if (!filename.endsWith(".md")) {
+    console.warn(`Invalid file type: ${filename}`);
+    return {};
+  }
+
+  const filePath = path.join(process.cwd(), directory, filename);
+  return readMarkdownFile(filePath) || {};
+};
+
+/**
+ * Reads all markdown files in a given directory and returns structured objects.
+ */
+export const getFolderMarkups = (
+  directory: string
+): Record<string, { [key: string]: any; body: string }> => {
   try {
     const directoryPath = path.join(process.cwd(), directory);
 
-    // Ensure directory path is valid
     if (!fs.existsSync(directoryPath)) {
       console.warn(`Directory not found: ${directoryPath}`);
-      return null;
+      return {};
     }
 
-    // Remove any non-.md files
     const files = fs.readdirSync(directoryPath).filter((file) => file.endsWith(".md"));
 
-    // Ensure directory contains at least one .md file
     if (files.length === 0) {
-      console.warn(`Directory is empty: ${directoryPath}`);
-      return null;
+      console.warn(`No markdown files found in directory: ${directoryPath}`);
+      return {};
     }
 
-    // Convert each file to markup, removing any null entries
-    const markups = files
-      .map((filename) => {
-        try {
-          const filePath = path.join(directoryPath, filename);
-          const file = matter.read(filePath);
+    const markups: Record<string, { [key: string]: any; body: string }> = {};
 
-          //Ensure file has valid content
-          if (!file.content.trim() && !Object.keys(file.data).length) {
-            console.warn(`File is empty or missing valid content: ${filePath}`);
-            return null;
-          }
-
-          return file;
-        } catch (error) {
-          console.error(`Failed to parse file: ${filename}`, error);
-          return null;
-        }
-      })
-      .filter((file): file is matter.GrayMatterFile<string> => file !== null);
+    for (const filename of files) {
+      const filePath = path.join(directoryPath, filename);
+      const fileData = readMarkdownFile(filePath);
+      if (fileData) {
+        const key = filename.replace(/\.md$/, "");
+        markups[key] = fileData;
+      }
+    }
 
     return markups;
   } catch (error) {
-    console.error(`Failed to read directory: ${directory}`, error);
-    return null;
+    console.error(`Error reading directory: ${directory}`, error);
+    return {};
   }
 };

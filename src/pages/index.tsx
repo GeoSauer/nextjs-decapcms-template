@@ -1,13 +1,13 @@
 import Image from "next/image";
-import { ContentBlock, HeroData, PageData } from "@/lib/entities/constants";
 import { GetStaticProps } from "next";
-import { getMarkup } from "@/lib/utils/markdown";
+import { getFolderMarkups } from "@/lib/utils/markdown";
 import ReactMarkdown from "react-markdown";
 import Script from "next/script";
+import { Homepage } from "@/lib/types/cms";
 
 interface HomeProps {
-  hero: HeroData;
-  page: PageData;
+  hero: Homepage.Hero;
+  page: Homepage.InfoBlocks;
 }
 
 export default function Home({ hero, page }: HomeProps) {
@@ -21,8 +21,8 @@ export default function Home({ hero, page }: HomeProps) {
           margin: "2rem 0",
         }}
       >
-        <h1>{hero.title}</h1>
-        <p>{hero.subtitle}</p>
+        <h1>{hero?.title}</h1>
+        <p>{hero?.subtitle}</p>
         {hero.backgroundImage && hero.backgroundImageAltText && (
           <div
             style={{
@@ -40,13 +40,13 @@ export default function Home({ hero, page }: HomeProps) {
         <button>{hero.buttonText}</button>
       </section>
       <section style={{ textAlign: "center" }}>
-        <h2 style={{ marginBottom: "2rem" }}>{page.sectionTitle}</h2>
-        {page.contents.map((block: ContentBlock, idx: number) => (
+        {<h2 style={{ marginBottom: "2rem" }}>{page?.sectionTitle}</h2>}
+        {page?.blocks.map((block: Homepage.InfoBlock, idx: number) => (
           <div key={`${block.title}-${idx}`} style={{ marginBottom: "2rem" }}>
             <h3>{block.title}</h3>
             <p>{block.subtitle}</p>
             {/* any markdown widgets need to be wrapped in ReactMarkdown to render properly */}
-            <ReactMarkdown>{block.sectionContent}</ReactMarkdown>
+            <ReactMarkdown>{block.body}</ReactMarkdown>
           </div>
         ))}
       </section>
@@ -55,23 +55,18 @@ export default function Home({ hero, page }: HomeProps) {
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-  // Use the getMarkup utility to fetch markdown data for hero and page content
-  const heroMarkups = getMarkup("src/content/homepage", "hero.md");
-  const pageMarkups = getMarkup("src/content/homepage", "content_blocks.md");
+  // Use the getFolderMarkups utility to fetch markdown data from a given folder
+  const homePageMarkups = getFolderMarkups("src/content/homepage");
 
-  // If no content is found, return a 404
-  if (!heroMarkups || !pageMarkups) {
-    return { notFound: true };
-  }
-
-  const { data: hero } = heroMarkups;
-  const { data: page } = pageMarkups;
+  //* Alternatively, use the getMarkup utility to fetch a single markdown file
+  // const heroMarkups = getMarkup("src/content/homepage", "hero.md");
+  // const contentBlockMarkups = getMarkup("src/content/homepage", "content_blocks.md");
 
   // Return the data as props
   return {
     props: {
-      hero,
-      page,
+      hero: homePageMarkups.hero || null,
+      page: homePageMarkups.info_blocks || null,
     },
   };
 };
