@@ -3,18 +3,21 @@ import { GetStaticProps } from "next";
 import { getFolderMarkups } from "@/lib/utils/markdown";
 import ReactMarkdown from "react-markdown";
 import Script from "next/script";
-import { Homepage } from "@/lib/types/cms";
+import { HomePage } from "@/lib/types/cms";
 
 interface HomeProps {
-  hero: Homepage.Hero;
-  page: Homepage.InfoBlocks;
+  hero: HomePage.Hero;
+  page: HomePage.InfoBlocks;
 }
 
 export default function Home({ hero, page }: HomeProps) {
   return (
     <main>
       {/* include this script on '/' so that invited users can set a password */}
-      <Script src="https://identity.netlify.com/v1/netlify-identity-widget.js" />
+      <Script
+        src="https://identity.netlify.com/v1/netlify-identity-widget.js"
+        strategy="lazyOnload"
+      />
       <section
         style={{
           textAlign: "center",
@@ -41,7 +44,7 @@ export default function Home({ hero, page }: HomeProps) {
       </section>
       <section style={{ textAlign: "center" }}>
         {<h2 style={{ marginBottom: "2rem" }}>{page?.sectionTitle}</h2>}
-        {page?.blocks.map((block: Homepage.InfoBlock, idx: number) => (
+        {page?.blocks.map((block: HomePage.InfoBlock, idx: number) => (
           <div key={`${block.title}-${idx}`} style={{ marginBottom: "2rem" }}>
             <h3>{block.title}</h3>
             <p>{block.subtitle}</p>
