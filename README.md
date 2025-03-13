@@ -19,35 +19,29 @@ All of the building blocks are already in place, but there's a few steps necessa
 
 - After cloning the repo go ahead and deploy it on Netlify. During deploy make sure to set the publish directory to 'out'.
 - Navigate to site Site configuration/Identity/Registration - choose between 'open' or 'invite only', you'll probably want to choose the latter.
-- Navigate to site Site configuration/Identity/Users - invite yourself/client.
+- Navigate to site Site configuration/Identity/Users - invite yourself/client. Be sure to open the invite email and create a password for your profile.
 - Navigate to Site configuration/Identity/Services - enable Git Gateway.
 
 ### Repo steps
 
-- In `public/admin/config.yml` look for the TODOs and edit the `repo` and `identity_url`
-  First, run the development server:
+- In `public/admin/config.yml` look for the TODOs and edit the `repo` and `identity_url` to your values.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+And now you should be all set! Run `npm run dev` in the console and navigate to [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+To reach the CMS, navigate to [http://localhost:3000/admin/index.html#/](http://localhost:3000/admin/index.html#/) and log in with your credentials. When you first attempt to login you should see a modal titled 'Development Settings' which will ask you provide the deployed Netlify URL for your project. **Note** - in production the url is just your-website.com/admin.
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+_**IMPORTANT**_ - If you have multiple DecapCMS projects, be sure to swap to the appropriate deployed URL before logging in.
 
-This project uses [`next/font`](https://nextjs.org/docs/pages/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Adding/Editing CMS fields
 
-## Learn More
+The structure of all CMS fields is defined in `public/admin/config.yml` (**Note** - changing the name of the `admin` directory will also change the route to the CMS dashboard, if you wish to do so). I've tried to provide some good examples of various structures and have mainly stuck with [file collections](https://decapcms.org/docs/collection-file/), but there's plenty of other examples in the DecapCMS docs. 
 
-To learn more about Next.js, take a look at the following resources:
+_**Tip**_ - To quickly verify your `.yml` syntax and collection structure keep the CMS open locally.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn-pages-router) - an interactive Next.js tutorial.
+### Generating Types
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+I've included a script that automatically generates types for all of your CMS data based on the contents of your `config.yml`. As soon as you're done setting it up or make any edits, just run `npm run generate:types` and it'll take care of it for you. 
+
+## Thanks for checking this template out!
+
+I designed this to be pretty accessible/beginner friendly and I really hope I accomplished that. I'm very open to the ideas of contributions but am not quite sure how I want to approach it, so if you've got any feedback please don't hesitate to send me an email at geo.sauer89@gmail.com or connect on [LinkedIn](https://www.linkedin.com/in/geosauer/)
