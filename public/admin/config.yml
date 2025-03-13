@@ -8,11 +8,11 @@ public_folder: "/images" # Public path for uploaded media
 # Here we define content structure
 collections:
   - label: "Home page" # Used in UI
-    name: "homepage" # Used in routes
+    name: "home_page" # Used in routes
     files:
       - label: "Hero"
         name: "hero"
-        file: "src/content/homepage/hero.md" # Path to the markdown file
+        file: "src/content/home-page/hero.md" # Path to the markdown file
         create: true
         fields:
           - { label: "Title", name: "title", widget: "string" }

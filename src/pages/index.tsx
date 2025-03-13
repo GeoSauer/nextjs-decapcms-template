@@ -56,7 +56,7 @@ export default function Home({ hero, page }: HomeProps) {
 
 export const getStaticProps: GetStaticProps = async () => {
   // Use the getFolderMarkups utility to fetch markdown data from a given folder
-  const homePageMarkups = getFolderMarkups("src/content/homepage");
+  const homePageMarkups = getFolderMarkups("src/content/home-page");
 
   //* Alternatively, use the getMarkup utility to fetch a single markdown file
   // const heroMarkups = getMarkup("src/content/homepage", "hero.md");
