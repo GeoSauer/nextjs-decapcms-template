@@ -26,9 +26,9 @@ All of the building blocks are already in place, but there's a few steps necessa
 #### Since this project utilizes DecapCMS (formerly Netlify CMS) it **must** be deployed on Netlify
 
 - After cloning the repo go ahead and deploy it on Netlify. During deploy make sure to set the publish directory to 'out'.
-- Navigate to site Site configuration/Identity/Registration - choose between 'open' or 'invite only', you'll probably want to choose the latter.
-- Navigate to site Site configuration/Identity/Users - invite yourself/client. Be sure to open the invite email and create a password for your profile.
-- Navigate to Site configuration/Identity/Services - enable Git Gateway.
+- Navigate to `Site configuration/Identity/Registration` - choose between 'open' or 'invite only', you'll probably want to choose the latter.
+- Navigate to `Site configuration/Identity/Users` - invite yourself/client. Be sure to open the invite email and create a password for your profile.
+- Navigate to `Site configuration/Identity/Services` - enable Git Gateway.
 
 ### Repo Steps
 
