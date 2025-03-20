@@ -8,6 +8,8 @@ I set out to build this template with the goal of being able to quickly spin up 
 - Content management with [DecapCMS](https://decapcms.org/docs).
 - Deployed on [Netlify](https://www.netlify.com/).
 - Contact form to email service API [Web3Forms](https://web3forms.com/).
+- Markdown formatting with [ReactMarkdown](https://www.npmjs.com/package/react-markdown/v/8.0.6).
+- Styled with [tailwindcss](https://tailwindcss.com/).
 - TypeScript
 
 ## Repo Layout
