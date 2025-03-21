@@ -74,7 +74,7 @@ export default function Home({ hero, page }: HomeProps) {
               .
             </p>
             <a
-              className="bg-gray-900 text-gray-300 hover:bg-gray-700 transition-colors rounded-full px-4 py-2 max-w-fit mx-auto inline-flex items-center gap-2 cursor-pointer mt-3"
+              className="bg-gray-900 text-gray-300 hover:bg-gray-700 transition-colors rounded-full px-4 py-2 max-w-fit mx-auto inline-flex items-center gap-2 cursor-pointer mt-10 md:mt-3"
               href="https://github.com/new?template_name=nextjs-decapcms-template&template_owner=GeoSauer"
               target="_blank"
               rel="noopener noreferrer"
@@ -98,18 +98,69 @@ export default function Home({ hero, page }: HomeProps) {
               </svg>
             </a>
           </div>
-          {/* INFO BLOCKS */}
-          <div className="text-center">
-            <h2 className="">Info Blocks</h2>
-            {Array(3)
-              .fill(0)
-              .map((_, idx) => (
-                <div key={idx}>
-                  <h2>Info Block {idx + 1}</h2>
-                  <p>This is a sample info block.</p>
-                </div>
-              ))}
+          {/* FEATURES */}
+          <div className="flex flex-col md:flex-row justify-evenly mt-15 gap-10 md:gap-0">
+            {/* DEV FEATURES */}
+            <div className="text-left md:max-w-1/3 ">
+              <h2 className="text-2xl md:text-3xl text-center">Key Developer Features:</h2>
+              <div className="flex flex-col gap-4 mt-4">
+                <p>
+                  <span className="font-bold">Fully Integrated - </span>
+                  <span className="text-gray-500">
+                    Next.js for speed, DecapCMS for easy content management, and TailwindCSS for
+                    rapid styling.
+                  </span>
+                </p>
+                <p>
+                  <span className="font-bold">Zero Setup Required - </span>
+                  <span className="text-gray-500">
+                    Clone, install, and start building immediately.
+                  </span>
+                </p>
+                <p>
+                  <span className="font-bold">Typescript & Types Generation - </span>
+                  <span className="text-gray-500">
+                    Automatically generate types for CMS data with a simple command, no need to
+                    manually define your structures.
+                  </span>
+                </p>
+                <p>
+                  <span className="font-bold">Open Source and Developer-Friendly - </span>
+                  <span className="text-gray-500">
+                    Built to be lightweight, scalable, and easy to maintain.
+                  </span>
+                </p>
+              </div>
+              {/* USER FEATURES */}
+            </div>
+            <div className="text-left md:max-w-1/3 ">
+              <h2 className="text-2xl md:text-3xl text-center">Key Client Features:</h2>
+              <div className="flex flex-col gap-4 mt-4">
+                <p>
+                  <span className="font-bold">Blazing Fast Performance - </span>
+                  <span className="text-gray-500">
+                    Optimized for modern web standards and SEO-friendly.
+                  </span>
+                </p>
+                <p>
+                  <span className="font-bold">Zero Backend Costs - </span>
+                  <span className="text-gray-500">
+                    No need for a separately hosted backend. The only recurring cost is the custom
+                    domain.
+                  </span>
+                </p>
+                <p>
+                  <span className="font-bold">DecapCMS-Powered Content Management - </span>
+                  <span className="text-gray-500">
+                    Empower clients to manage their content easily, featuring live previews and a
+                    user-friendly interface.
+                  </span>
+                </p>
+              </div>
+            </div>
           </div>
+          {/* DEMOS/EXAMPLES */}
+          {/* CONTACT */}
         </main>
         {/* FOOTER */}
         <footer className="w-full text-center bg-gray-950 text-gray-300">
