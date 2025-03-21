@@ -53,7 +53,7 @@ export default function Home({ hero, page }: HomeProps) {
         </header>
         <main className="p-4 pt-30 flex-grow">
           {/* HERO */}
-          <div className="md:w-1/2 md:ml-10 mx-auto flex flex-col gap-4 md:gap-6">
+          <section className="md:w-1/2 md:ml-10 mx-auto flex flex-col gap-4 md:gap-6">
             <h1 className="text-2xl md:text-5xl">
               The Fastest Way to Launch a Modern, Headless CMS Website.
             </h1>
@@ -97,12 +97,12 @@ export default function Home({ hero, page }: HomeProps) {
                 <path d="M15 3h6v6" />
               </svg>
             </a>
-          </div>
+          </section>
           {/* FEATURES */}
-          <div className="flex flex-col md:flex-row justify-evenly mt-15 gap-10 md:gap-0">
+          <section className="flex flex-col md:flex-row justify-evenly mt-15 md:mt-25 gap-10 md:gap-0">
             {/* DEV FEATURES */}
             <div className="text-left md:max-w-1/3 ">
-              <h2 className="text-2xl md:text-3xl text-center">Key Developer Features:</h2>
+              <h2 className="text-2xl md:text-3xl text-center">Developers Love:</h2>
               <div className="flex flex-col gap-4 mt-4">
                 <p>
                   <span className="font-bold">Fully Integrated - </span>
@@ -134,7 +134,7 @@ export default function Home({ hero, page }: HomeProps) {
               {/* USER FEATURES */}
             </div>
             <div className="text-left md:max-w-1/3 ">
-              <h2 className="text-2xl md:text-3xl text-center">Key Client Features:</h2>
+              <h2 className="text-2xl md:text-3xl text-center">Clients Love:</h2>
               <div className="flex flex-col gap-4 mt-4">
                 <p>
                   <span className="font-bold">Blazing Fast Performance - </span>
@@ -158,8 +158,30 @@ export default function Home({ hero, page }: HomeProps) {
                 </p>
               </div>
             </div>
-          </div>
+          </section>
           {/* DEMOS/EXAMPLES */}
+          <section className="mt-10 md:mt-25">
+            <h2 className="text-2xl md:text-3xl text-center">Pages Built Using this Template</h2>
+            <div className="flex flex-wrap justify-evenly mt-5 md:mt-15 gap-8">
+              {Array.from({ length: 6 }, (_, index) => (
+                <div
+                  key={index}
+                  className="rounded-lg overflow-hidden shadow-lg md:w-2/5 md:max-w-1/2"
+                >
+                  <div className="hover:scale-105 transition-transform duration-300">
+                    <a href="https://nextjs.org/docs" target="_blank" rel="noopener noreferrer">
+                      <Image
+                        src={"/images/Screenshot 2025-03-21 at 2.46.52 PM.png"}
+                        alt=""
+                        width={800}
+                        height={450}
+                      />
+                    </a>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
           {/* CONTACT */}
         </main>
         {/* FOOTER */}
