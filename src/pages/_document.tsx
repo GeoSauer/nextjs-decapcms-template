@@ -4,7 +4,6 @@ export default function Document() {
   return (
     <Html lang="en">
       <Head>
-        <title>Next.js + DecapCMS Template</title>
         <meta
           name="description"
           content="Boilerplate template for rapidly deploying static sites with Next.js and DecapCMS."

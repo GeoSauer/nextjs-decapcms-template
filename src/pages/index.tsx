@@ -1,19 +1,23 @@
 import Image from "next/image";
 import { GetStaticProps } from "next";
 import { getFolderMarkups } from "@/lib/utils/markdown";
-import ReactMarkdown from "react-markdown";
+// import ReactMarkdown from "react-markdown";
 import Script from "next/script";
-import { HomePage } from "@/lib/types/cms";
-interface HomeProps {
-  hero: HomePage.Hero;
-  page: HomePage.InfoBlocks;
-}
+// import { HomePage } from "@/lib/types/cms";
+import Head from "next/head";
+// interface HomeProps {
+//   hero: HomePage.Hero;
+//   page: HomePage.InfoBlocks;
+// }
 
-export default function Home({ hero, page }: HomeProps) {
+export default function Home() {
   const currentYear = new Date().getFullYear();
 
   return (
     <>
+      <Head>
+        <title>Next.js + DecapCMS Template</title>
+      </Head>
       {/* include this script on '/' so that invited users can set a password */}
       <Script
         src="https://identity.netlify.com/v1/netlify-identity-widget.js"
