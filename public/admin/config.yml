@@ -14,18 +14,24 @@ collections:
       - label: "Hero"
         name: "hero"
         file: "src/content/home-page/hero.md" # Path to the markdown file
-        create: true
+        create: false
+        delete: false
         fields:
-          - { label: "Title", name: "title", widget: "string" }
-          - { label: "Subtitle", name: "subtitle", widget: "string" }
-          - { label: "Background Image", name: "backgroundImage", widget: "image", required: false }
-          - {
-              label: "Background Image Alt Text",
-              name: "backgroundImageAltText",
-              widget: "string",
-              required: false,
-            }
-          - { label: "Button Text", name: "buttonText", widget: "string" }
+          - { name: "title", label: "Title", widget: "string" }
+          - { name: "description", label: "Description", widget: "text" }
+          - name: "details"
+            label: "Details"
+            widget: "object"
+            fields:
+              - { name: "text", label: "Details Text", widget: "string" }
+              - { name: "link", label: "Details Link", widget: "string" }
+              - { name: "url", label: "Details URL", widget: "string" }
+          - name: "cta"
+            label: "CTA Button"
+            widget: "object"
+            fields:
+              - { name: "text", label: "Button Text", widget: "string" }
+              - { name: "url", label: "Button URL", widget: "string" }
       - label: "Info Blocks"
         name: "info_blocks"
         file: "src/content/home-page/info_blocks.md"

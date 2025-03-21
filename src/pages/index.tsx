@@ -1,18 +1,19 @@
 import Image from "next/image";
+import Head from "next/head";
 import { GetStaticProps } from "next";
 import { getFolderMarkups } from "@/lib/utils/markdown";
 // import ReactMarkdown from "react-markdown";
 import Script from "next/script";
-// import { HomePage } from "@/lib/types/cms";
-import Head from "next/head";
-// interface HomeProps {
-//   hero: HomePage.Hero;
-//   page: HomePage.InfoBlocks;
-// }
+import { HomePage } from "@/lib/types/cms";
 
-export default function Home() {
+interface HomeProps {
+  hero: HomePage.Hero;
+  page: HomePage.InfoBlocks;
+}
+
+export default function Home({ hero, page }: HomeProps) {
   const currentYear = new Date().getFullYear();
-  console.log(process.env.WEB3FORMS_API_KEY);
+  console.log(hero.details);
   return (
     <>
       <Head>
@@ -58,32 +59,27 @@ export default function Home() {
         <main className="p-4 pt-30 flex-grow">
           {/* HERO */}
           <section className="md:w-1/2 md:ml-10 mx-auto flex flex-col gap-4 md:gap-6">
-            <h1 className="text-2xl md:text-5xl">
-              The Fastest Way to Launch a Modern, Headless CMS Website.
-            </h1>
-            <p className="text-md text-gray-500 md:text-xl">
-              Our Next.js + DecapCMS template comes pre-configured so you can jump straight into
-              designing and developing your site — without the hassle of setup.
-            </p>
-            <p className="text-md text-gray-500 md:text-lg">
-              For more detailed instructions, check out the{" "}
+            <h1 className="text-2xl md:text-5xl">{hero.title}</h1>
+            <p className="text-md text-gray-500 md:text-xl">{hero.description}</p>
+            <span className="text-md text-gray-500 md:text-lg">
+              {hero.details.text}
               <a
                 className="text-gray-300 hover:underline"
-                href="https://github.com/GeoSauer/nextjs-decapcms-template/blob/main/README.md"
+                href={hero.details.url}
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                README
+                {hero.details.link}
               </a>
               .
-            </p>
+            </span>
             <a
               className="bg-gray-900 text-gray-300 hover:bg-gray-700 transition-colors rounded-full px-4 py-2 max-w-fit mx-auto inline-flex items-center gap-2 cursor-pointer mt-10 md:mt-3"
-              href="https://github.com/new?template_name=nextjs-decapcms-template&template_owner=GeoSauer"
+              href={hero.cta.url}
               target="_blank"
               rel="noopener noreferrer"
             >
-              Use Template
+              {hero.cta.text}
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"

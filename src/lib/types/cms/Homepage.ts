@@ -1,9 +1,15 @@
 export type Hero = {
   title: string;
-  subtitle: string;
-  backgroundImage?: string;
-  backgroundImageAltText?: string;
-  buttonText: string;
+  description: string;
+  details: {
+  text: string;
+  link: string;
+  url: string;
+  };
+  cta: {
+  text: string;
+  url: string;
+  };
 };
 
 export type InfoBlocks = {
