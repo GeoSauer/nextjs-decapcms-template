@@ -39,7 +39,8 @@ export default function Home({ hero, page }: HomeProps) {
               rel="noopener noreferrer"
             >
               DecapCMS
-            </a>
+            </a>{" "}
+            Template
           </p>
           <a
             className="hover:bg-white transition-transform my-auto bg-gray-300 p-[1px] pt-[.5px] rounded-full"
@@ -50,7 +51,7 @@ export default function Home({ hero, page }: HomeProps) {
             <Image src="/icons/github.svg" alt="GitHub Logo" width={30} height={30} />
           </a>
         </header>
-        <div className="p-4 pt-20">
+        <main className="p-4 pt-30 flex-grow">
           {/* HERO */}
           <div className="text-center border-2 border-white p-4 rounded-lg md:w-1/2 mx-auto">
             <h1>Welcome to the Next.js + DecapCMS template!</h1>
@@ -70,7 +71,7 @@ export default function Home({ hero, page }: HomeProps) {
           </div>
           {/* INFO BLOCKS */}
           <div className="text-center">
-            <h1 className="">Info Blocks</h1>
+            <h2 className="">Info Blocks</h2>
             {Array(3)
               .fill(0)
               .map((_, idx) => (
@@ -80,7 +81,7 @@ export default function Home({ hero, page }: HomeProps) {
                 </div>
               ))}
           </div>
-        </div>
+        </main>
         {/* FOOTER */}
         <footer className="w-full text-center bg-gray-950 text-gray-300">
           <p className="py-1.5">
@@ -88,7 +89,7 @@ export default function Home({ hero, page }: HomeProps) {
             <a
               className="hover:text-white"
               href="https://geosauer.com"
-              target="_blanc"
+              target="_blank"
               rel="noopener noreferrer"
             >
               Geo Sauer

@@ -15,7 +15,7 @@ I set out to build this template with the goal of being able to quickly spin up 
 ## Repo Layout
 
 - `public/admin` - DecapCMS config and html files
-- `src/content/*` - directories containing MarkDown files with published CMS data
+- `src/content` - directories containing MarkDown files with published CMS data
 - `src/lib/types/cms` - Type files for CMS data
 - `src/pages/index.tsx` - root of the project where all data is fetched
 
