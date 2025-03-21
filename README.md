@@ -27,7 +27,7 @@ All of the building blocks are already in place, but there's a few steps necessa
 
 #### Since this project utilizes DecapCMS (formerly Netlify CMS) it **must** be deployed on Netlify
 
-- After cloning the repo go ahead and deploy it on Netlify. During deploy make sure to set the publish directory to 'out'.
+- After cloning the repo and installing dependencies, go ahead and deploy it on Netlify. During deploy ensure that the publish directory is set to 'out'.
 - Navigate to `Site configuration/Identity/Registration` - choose between 'open' or 'invite only', you'll probably want to choose the latter.
 - Navigate to `Site configuration/Identity/Users` - invite yourself/client. Be sure to open the invite email and create a password for your profile.
 - Navigate to `Site configuration/Identity/Services` - enable Git Gateway.
@@ -54,4 +54,4 @@ I've included a script that automatically generates types for all of your CMS da
 
 ## Contributions
 
-I designed this to be pretty accessible/beginner friendly and I really hope I accomplished that. I'm very open to the ideas of contributions but am not quite sure how I want to approach it, so if you've got any feedback please don't hesitate to send me an email at <geo.sauer89@gmail.com> or connect on [LinkedIn](https://www.linkedin.com/in/geosauer/)
+I designed this to be pretty accessible/beginner friendly and I really hope I accomplished that. I'm very open to the idea of contributions but am not quite sure how I want to approach it, so if you've got any feedback please don't hesitate to send me an email at <geo.sauer89@gmail.com> or connect on [LinkedIn](https://www.linkedin.com/in/geosauer/)
