@@ -4,12 +4,12 @@ import { GetStaticProps } from "next";
 import { getFolderMarkups } from "@/lib/utils/markdown";
 // import ReactMarkdown from "react-markdown";
 import Script from "next/script";
-import { HomePage } from "@/lib/types/cms";
+import { Examples, Features, Hero } from "@/lib/types/cms";
 
 interface HomeProps {
-  hero: HomePage.Hero;
-  features: HomePage.Features;
-  examples: HomePage.Examples;
+  hero: Hero;
+  features: Features;
+  examples: Examples;
 }
 
 export default function Home({ hero, features, examples }: HomeProps) {

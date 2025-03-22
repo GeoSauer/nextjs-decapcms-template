@@ -13,19 +13,23 @@ export type Hero = {
 };
 
 export type Features = {
-  developers: {
-  title: string;
-  description: string;
-  }[];
-  clients: {
-  title: string;
-  description: string;
-  }[];
+  developers: DevFeature[];
+  clients: ClientFeature[];
 };
 
 export type Examples = {
   title: string;
   pages: Page[];
+};
+
+export type DevFeature = {
+  title: string;
+  description: string;
+};
+
+export type ClientFeature = {
+  title: string;
+  description: string;
 };
 
 export type Page = {

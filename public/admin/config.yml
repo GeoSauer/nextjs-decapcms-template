@@ -40,12 +40,14 @@ collections:
         fields:
           - name: "developers"
             label: "Developers Love"
+            label_singular: " Dev Feature"
             widget: "list"
             fields:
               - { name: "title", label: "Feature Title", widget: "string" }
               - { name: "description", label: "Feature Description", widget: "text" }
           - name: "clients"
             label: "Clients Love"
+            label_singular: "Client Feature"
             widget: "list"
             fields:
               - { name: "title", label: "Feature Title", widget: "string" }
