@@ -12,13 +12,25 @@ export type Hero = {
   };
 };
 
-export type InfoBlocks = {
-  sectionTitle: string;
-  blocks: InfoBlock[];
+export type Features = {
+  developers: {
+  title: string;
+  description: string;
+  }[];
+  clients: {
+  title: string;
+  description: string;
+  }[];
 };
 
-export type InfoBlock = {
+export type Examples = {
   title: string;
-  subtitle: string;
-  body?: string;
+  pages: Page[];
+};
+
+export type Page = {
+  title: string;
+  url: string;
+  image: string;
+  alt?: string;
 };

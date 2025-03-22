@@ -8,12 +8,31 @@ import { HomePage } from "@/lib/types/cms";
 
 interface HomeProps {
   hero: HomePage.Hero;
-  page: HomePage.InfoBlocks;
+  features: HomePage.Features;
+  examples: HomePage.Examples;
 }
 
-export default function Home({ hero, page }: HomeProps) {
+export default function Home({ hero, features, examples }: HomeProps) {
   const currentYear = new Date().getFullYear();
-  console.log(hero.details);
+
+  const renderFeatureList = (title: string, features: { title: string; description: string }[]) => {
+    if (!Array.isArray(features) || features.length === 0) return null;
+
+    return (
+      <div className="text-left md:max-w-1/3">
+        <h2 className="text-2xl md:text-3xl text-center">{title}</h2>
+        <div className="flex flex-col gap-4 mt-4">
+          {features.map((feature, index) => (
+            <p key={index}>
+              <span className="font-bold">{feature.title} - </span>
+              <span className="text-gray-500">{feature.description}</span>
+            </p>
+          ))}
+        </div>
+      </div>
+    );
+  };
+
   return (
     <>
       <Head>
@@ -98,94 +117,44 @@ export default function Home({ hero, page }: HomeProps) {
               </svg>
             </a>
           </section>
+
           {/* FEATURES */}
           <section className="flex flex-col md:flex-row justify-evenly mt-15 md:mt-25 gap-10 md:gap-0">
-            {/* DEV FEATURES */}
-            <div className="text-left md:max-w-1/3 ">
-              <h2 className="text-2xl md:text-3xl text-center">Developers Love:</h2>
-              <div className="flex flex-col gap-4 mt-4">
-                <p>
-                  <span className="font-bold">Fully Integrated - </span>
-                  <span className="text-gray-500">
-                    Next.js for speed, DecapCMS for easy content management, and TailwindCSS for
-                    rapid styling.
-                  </span>
-                </p>
-                <p>
-                  <span className="font-bold">Zero Setup Required - </span>
-                  <span className="text-gray-500">
-                    Clone, install, and start building immediately.
-                  </span>
-                </p>
-                <p>
-                  <span className="font-bold">Typescript & Types Generation - </span>
-                  <span className="text-gray-500">
-                    Automatically generate types for CMS data with a simple command, no need to
-                    manually define your structures.
-                  </span>
-                </p>
-                <p>
-                  <span className="font-bold">Open Source and Developer-Friendly - </span>
-                  <span className="text-gray-500">
-                    Built to be lightweight, scalable, and easy to maintain.
-                  </span>
-                </p>
-              </div>
-              {/* USER FEATURES */}
-            </div>
-            <div className="text-left md:max-w-1/3 ">
-              <h2 className="text-2xl md:text-3xl text-center">Clients Love:</h2>
-              <div className="flex flex-col gap-4 mt-4">
-                <p>
-                  <span className="font-bold">Blazing Fast Performance - </span>
-                  <span className="text-gray-500">
-                    Optimized for modern web standards and SEO-friendly.
-                  </span>
-                </p>
-                <p>
-                  <span className="font-bold">Zero Backend Costs - </span>
-                  <span className="text-gray-500">
-                    No need for a separately hosted backend. The only recurring cost is the custom
-                    domain.
-                  </span>
-                </p>
-                <p>
-                  <span className="font-bold">DecapCMS-Powered Content Management - </span>
-                  <span className="text-gray-500">
-                    Empower clients to manage their content easily, featuring live previews and a
-                    user-friendly interface.
-                  </span>
-                </p>
-              </div>
-            </div>
+            {renderFeatureList("Developers Love:", features.developers)}
+            {renderFeatureList("Clients Love:", features.clients)}
           </section>
-          {/* DEMOS/EXAMPLES */}
-          <section className="mt-10 md:mt-25">
-            <h2 className="text-2xl md:text-3xl text-center">Pages Built Using this Template</h2>
-            <div className="flex flex-wrap justify-evenly mt-5 md:mt-15 gap-8">
-              {Array.from({ length: 6 }, (_, index) => (
-                <div
-                  key={index}
-                  className="rounded-lg overflow-hidden shadow-lg md:w-2/5 md:max-w-1/2"
-                >
-                  <div className="hover:scale-105 transition-transform duration-300">
-                    <a href="https://nextjs.org/docs" target="_blank" rel="noopener noreferrer">
-                      <Image
-                        src={"/images/Screenshot 2025-03-21 at 2.46.52 PM.png"}
-                        alt=""
-                        width={800}
-                        height={450}
-                      />
-                    </a>
+
+          {/* EXAMPLES */}
+          {examples.pages.length > 0 && (
+            <section className="mt-10 md:mt-25">
+              <h2 className="text-2xl md:text-3xl text-center">{examples.title}</h2>
+              <div className="flex flex-wrap justify-evenly mt-5 md:mt-15 gap-8">
+                {examples.pages.map((page, index) => (
+                  <div
+                    key={index}
+                    className="rounded-lg overflow-hidden shadow-lg md:w-2/5 md:max-w-1/2"
+                  >
+                    <div className="hover:scale-105 transition-transform duration-300">
+                      <a href={page.url} target="_blank" rel="noopener noreferrer">
+                        <Image
+                          src={page.image}
+                          alt={page.alt || page.title}
+                          width={800}
+                          height={450}
+                        />
+                      </a>
+                    </div>
                   </div>
-                </div>
-              ))}
-            </div>
-          </section>
+                ))}
+              </div>
+            </section>
+          )}
+
           {/* CONTACT */}
         </main>
+
         {/* FOOTER */}
-        <footer className="w-full text-center bg-gray-950 text-gray-300">
+        <footer className="w-full text-center bg-gray-950 text-gray-300 mt-30">
           <p className="py-1.5">
             Copyright © {currentYear}{" "}
             <a
@@ -199,41 +168,6 @@ export default function Home({ hero, page }: HomeProps) {
           </p>
         </footer>
       </div>
-      {/* <section
-        style={{
-          textAlign: "center",
-          margin: "2rem 0",
-        }}
-      >
-        <h1>{hero?.title}</h1>
-        <p>{hero?.subtitle}</p>
-        {hero.backgroundImage && hero.backgroundImageAltText && (
-          <div
-            style={{
-              margin: "0 auto",
-            }}
-          >
-            <Image
-              src={hero.backgroundImage}
-              alt={hero.backgroundImageAltText}
-              width={300}
-              height={300}
-            />
-          </div>
-        )}
-        <button className="">{hero.buttonText}</button>
-      </section>
-      <section style={{ textAlign: "center" }}>
-        {<h2 style={{ marginBottom: "2rem" }}>{page?.sectionTitle}</h2>}
-        {page?.blocks.map((block: HomePage.InfoBlock, idx: number) => (
-          <div key={`${block.title}-${idx}`} style={{ marginBottom: "2rem" }}>
-            <h3>{block.title}</h3>
-            <p>{block.subtitle}</p>
-            <ReactMarkdown>{block.body}</ReactMarkdown>
-          </div>
-        ))}
-      </section> */}
-      {/* any markdown widgets need to be wrapped in ReactMarkdown to render properly */}
     </>
   );
 }
@@ -243,14 +177,14 @@ export const getStaticProps: GetStaticProps = async () => {
   const homePageMarkups = getFolderMarkups("src/content/home-page");
 
   //* Alternatively, use the getMarkup utility to fetch a single markdown file
-  // const heroMarkups = getMarkup("src/content/homepage", "hero.md");
-  // const contentBlockMarkups = getMarkup("src/content/homepage", "content_blocks.md");
+  // const heroMarkups = getMarkup("src/content/home-page", "hero.md");
 
   // Return the data as props
   return {
     props: {
       hero: homePageMarkups.hero || null,
-      page: homePageMarkups.info_blocks || null,
+      features: homePageMarkups.features || null,
+      examples: homePageMarkups.examples || [],
     },
   };
 };

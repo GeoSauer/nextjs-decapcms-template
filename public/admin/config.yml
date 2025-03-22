@@ -32,17 +32,38 @@ collections:
             fields:
               - { name: "text", label: "Button Text", widget: "string" }
               - { name: "url", label: "Button URL", widget: "string" }
-      - label: "Info Blocks"
-        name: "info_blocks"
-        file: "src/content/home-page/info_blocks.md"
+      - label: "Features"
+        name: "features"
+        file: "src/content/home-page/features.md"
+        widget: "object"
         create: true
         fields:
-          - { label: "Section Title", name: "sectionTitle", widget: "string" }
-          - label: "Blocks"
-            label_singular: "Info Block"
-            name: "blocks"
+          - name: "developers"
+            label: "Developers Love"
             widget: "list"
             fields:
-              - { label: "Title", name: "title", widget: "string" }
-              - { label: "Subtitle", name: "subtitle", widget: "string" }
-              - { label: "Body", name: "body", widget: "markdown", required: false }
+              - { name: "title", label: "Feature Title", widget: "string" }
+              - { name: "description", label: "Feature Description", widget: "text" }
+          - name: "clients"
+            label: "Clients Love"
+            widget: "list"
+            fields:
+              - { name: "title", label: "Feature Title", widget: "string" }
+              - { name: "description", label: "Feature Description", widget: "text" }
+      - label: "Examples"
+        name: "examples"
+        file: "src/content/home-page/examples.md"
+        fields:
+          - name: "title"
+            label: "Section Title"
+            widget: "string"
+          - name: "pages"
+            label: "Pages"
+            label_singular: "Page"
+            widget: "list"
+            create: true
+            fields:
+              - { name: "title", label: "Page Title", widget: "string" }
+              - { name: "url", label: "Page URL", widget: "string" }
+              - { name: "image", label: "Page Image", widget: "image" }
+              - { name: "alt", label: "Alt Text", widget: "image", required: false }
