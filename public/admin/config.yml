@@ -23,9 +23,9 @@ collections:
             label: "Details"
             widget: "object"
             fields:
-              - { name: "text", label: "Details Text", widget: "string" }
-              - { name: "link", label: "Details Link", widget: "string" }
-              - { name: "url", label: "Details URL", widget: "string" }
+              - { name: "text", label: "Text", widget: "string" }
+              - { name: "link", label: "Link", widget: "string" }
+              - { name: "url", label: "URL", widget: "string" }
           - name: "cta"
             label: "CTA Button"
             widget: "object"
@@ -39,19 +39,19 @@ collections:
         create: true
         fields:
           - name: "developers"
-            label: "Developers Love"
-            label_singular: " Dev Feature"
+            label: "Developer Features"
+            label_singular: "Dev Feature"
             widget: "list"
             fields:
-              - { name: "title", label: "Feature Title", widget: "string" }
-              - { name: "description", label: "Feature Description", widget: "text" }
+              - { name: "title", label: "Title", widget: "string" }
+              - { name: "description", label: "Description", widget: "text" }
           - name: "clients"
-            label: "Clients Love"
+            label: "Client Features"
             label_singular: "Client Feature"
             widget: "list"
             fields:
-              - { name: "title", label: "Feature Title", widget: "string" }
-              - { name: "description", label: "Feature Description", widget: "text" }
+              - { name: "title", label: "Title", widget: "string" }
+              - { name: "description", label: "Description", widget: "text" }
       - label: "Examples"
         name: "examples"
         file: "src/content/home-page/examples.md"
@@ -65,7 +65,7 @@ collections:
             widget: "list"
             create: true
             fields:
-              - { name: "title", label: "Page Title", widget: "string" }
-              - { name: "url", label: "Page URL", widget: "string" }
-              - { name: "image", label: "Page Image", widget: "image" }
-              - { name: "alt", label: "Alt Text", widget: "image", required: false }
+              - { name: "title", label: "Title", widget: "string" }
+              - { name: "url", label: "URL", widget: "string" }
+              - { name: "image", label: "Image", widget: "image" }
+              - { name: "alt", label: "Alt Text", widget: "string", required: false }

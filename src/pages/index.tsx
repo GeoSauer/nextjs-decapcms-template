@@ -89,6 +89,7 @@ export default function Home({ hero, features, examples }: HomeProps) {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
+                  {" "}
                   {hero?.details.link}
                 </a>
                 .
