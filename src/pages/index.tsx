@@ -4,7 +4,7 @@ import { GetStaticProps } from "next";
 import { getFolderMarkups } from "@/lib/utils/markdown";
 // import ReactMarkdown from "react-markdown";
 import Script from "next/script";
-import { Examples, Features, Hero } from "@/lib/types/cms";
+import { ClientFeature, DevFeature, Examples, Features, Hero } from "@/lib/types/cms";
 
 interface HomeProps {
   hero: Hero;
@@ -15,8 +15,8 @@ interface HomeProps {
 export default function Home({ hero, features, examples }: HomeProps) {
   const currentYear = new Date().getFullYear();
 
-  const renderFeatureList = (title: string, features: { title: string; description: string }[]) => {
-    if (!Array.isArray(features) || features.length === 0) return null;
+  const renderFeatureList = (title: string, features: DevFeature[] | ClientFeature[]) => {
+    if (features.length === 0) return null;
 
     return (
       <div className="text-left md:max-w-1/3">
@@ -77,52 +77,56 @@ export default function Home({ hero, features, examples }: HomeProps) {
         </header>
         <main className="p-4 pt-30 flex-grow">
           {/* HERO */}
-          <section className="md:w-1/2 md:ml-10 mx-auto flex flex-col gap-4 md:gap-6">
-            <h1 className="text-2xl md:text-5xl">{hero.title}</h1>
-            <p className="text-md text-gray-500 md:text-xl">{hero.description}</p>
-            <span className="text-md text-gray-500 md:text-lg">
-              {hero.details.text}
+          {hero && (
+            <section className="md:w-1/2 md:ml-10 mx-auto flex flex-col gap-4 md:gap-6">
+              <h1 className="text-2xl md:text-5xl">{hero?.title}</h1>
+              <p className="text-md text-gray-500 md:text-xl">{hero?.description}</p>
+              <span className="text-md text-gray-500 md:text-lg">
+                {hero?.details.text}
+                <a
+                  className="text-gray-300 hover:underline"
+                  href={hero.details.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {hero?.details.link}
+                </a>
+                .
+              </span>
               <a
-                className="text-gray-300 hover:underline"
-                href={hero.details.url}
+                className="bg-gray-900 text-gray-300 hover:bg-gray-700 transition-colors rounded-full px-4 py-2 max-w-fit mx-auto inline-flex items-center gap-2 cursor-pointer mt-10 md:mt-3"
+                href={hero?.cta.url}
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                {hero.details.link}
+                {hero?.cta.text}
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="lucide lucide-square-arrow-out-up-right"
+                >
+                  <path d="M21 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h6" />
+                  <path d="m21 3-9 9" />
+                  <path d="M15 3h6v6" />
+                </svg>
               </a>
-              .
-            </span>
-            <a
-              className="bg-gray-900 text-gray-300 hover:bg-gray-700 transition-colors rounded-full px-4 py-2 max-w-fit mx-auto inline-flex items-center gap-2 cursor-pointer mt-10 md:mt-3"
-              href={hero.cta.url}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              {hero.cta.text}
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="lucide lucide-square-arrow-out-up-right"
-              >
-                <path d="M21 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h6" />
-                <path d="m21 3-9 9" />
-                <path d="M15 3h6v6" />
-              </svg>
-            </a>
-          </section>
+            </section>
+          )}
 
           {/* FEATURES */}
-          <section className="flex flex-col md:flex-row justify-evenly mt-15 md:mt-25 gap-10 md:gap-0">
-            {renderFeatureList("Developers Love:", features.developers)}
-            {renderFeatureList("Clients Love:", features.clients)}
-          </section>
+          {(features.clients.length > 0 || features.developers.length > 0) && (
+            <section className="flex flex-col md:flex-row justify-evenly mt-15 md:mt-25 gap-10 md:gap-0">
+              {renderFeatureList("Developers Love:", features.developers)}
+              {renderFeatureList("Clients Love:", features.clients)}
+            </section>
+          )}
 
           {/* EXAMPLES */}
           {examples.pages.length > 0 && (
