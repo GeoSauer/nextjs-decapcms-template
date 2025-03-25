@@ -4,7 +4,8 @@ import { GetStaticProps } from "next";
 import { getFolderMarkups } from "@/lib/utils/markdown";
 // import ReactMarkdown from "react-markdown";
 import Script from "next/script";
-import { ClientFeature, DevFeature, Examples, Features, Hero } from "@/lib/types/cms";
+import { ClientFeature, DevFeature, Examples, Features, Hero, Page } from "@/lib/types/cms";
+import { useState } from "react";
 
 interface HomeProps {
   hero: Hero;
@@ -21,7 +22,7 @@ export default function Home({ hero, features, examples }: HomeProps) {
     return (
       <div className="text-left md:max-w-1/3">
         <h2 className="text-2xl md:text-3xl text-center">{title}</h2>
-        <div className="flex flex-col gap-4 mt-4">
+        <div className="flex flex-col gap-4 md:gap-8 mt-4 md:mt-10">
           {features.map((feature, index) => (
             <p key={index}>
               <span className="font-bold">{feature.title} - </span>
@@ -30,6 +31,27 @@ export default function Home({ hero, features, examples }: HomeProps) {
           ))}
         </div>
       </div>
+    );
+  };
+
+  const renderExample = (page: Page) => {
+    const [imageExists, setImageExists] = useState(true);
+
+    return (
+      <>
+        {imageExists ? (
+          <img
+            src={page.image}
+            alt={page.alt || page.title}
+            onError={() => setImageExists(false)}
+            className="w-full"
+          />
+        ) : (
+          <div className="flex justify-center w-full h-full bg-gray-700">
+            <span className="text-2xl my-auto">{page.title}</span>
+          </div>
+        )}
+      </>
     );
   };
 
@@ -43,9 +65,9 @@ export default function Home({ hero, features, examples }: HomeProps) {
         src="https://identity.netlify.com/v1/netlify-identity-widget.js"
         strategy="lazyOnload"
       />
-      <div className="bg-gradient-to-tr from-gray-700 to-gray-900 min-h-screen w-full text-gray-400 flex flex-col justify-between">
+      <div className="bg-gradient-to-br from-gray-700 to-gray-900 min-h-screen w-full text-gray-300 flex flex-col justify-between">
         {/* HEADER */}
-        <header className="fixed w-full text-center md:text-left flex bg-gray-950 justify-between p-4 md:px-15">
+        <header className="fixed w-full text-center md:text-left flex bg-gray-950 justify-between p-4 md:px-15 z-1">
           <p className="text-2xl font-bold">
             <a
               className="hover:text-white"
@@ -75,27 +97,26 @@ export default function Home({ hero, features, examples }: HomeProps) {
             <Image src="/icons/github.svg" alt="GitHub Logo" width={30} height={30} />
           </a>
         </header>
-        <main className="p-4 pt-30 flex-grow">
+        <main className="p-4 flex flex-col gap-15 md:gap-35 flex-grow max-w-7xl mx-auto mt-30 md:mt-40">
           {/* HERO */}
           {hero && (
-            <section className="md:w-1/2 md:ml-10 mx-auto flex flex-col gap-4 md:gap-6">
-              <h1 className="text-2xl md:text-5xl">{hero?.title}</h1>
+            <section className="flex flex-col gap-4 md:gap-8">
+              <h1 className="text-2xl md:text-7xl">{hero?.title}</h1>
               <p className="text-md text-gray-500 md:text-xl">{hero?.description}</p>
               <span className="text-md text-gray-500 md:text-lg">
-                {hero?.details.text}
+                {hero?.details.text}{" "}
                 <a
-                  className="text-gray-300 hover:underline"
+                  className="text-gray-300 hover:underline hover:text-white"
                   href={hero.details.url}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  {" "}
                   {hero?.details.link}
                 </a>
                 .
               </span>
               <a
-                className="bg-gray-900 text-gray-300 hover:bg-gray-700 transition-colors rounded-full px-4 py-2 max-w-fit mx-auto inline-flex items-center gap-2 cursor-pointer mt-10 md:mt-3"
+                className="bg-gray-900 text-gray-300 hover:bg-gray-700 transition-colors rounded-full px-4 py-2 max-w-fit mx-auto md:ml-40 inline-flex items-center gap-2 cursor-pointer mt-10 md:mt-3"
                 href={hero?.cta.url}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -123,7 +144,7 @@ export default function Home({ hero, features, examples }: HomeProps) {
 
           {/* FEATURES */}
           {(features.clients.length > 0 || features.developers.length > 0) && (
-            <section className="flex flex-col md:flex-row justify-evenly mt-15 md:mt-25 gap-10 md:gap-0">
+            <section className="flex flex-col md:flex-row justify-evenly gap-20 md:gap-0">
               {renderFeatureList("Developers Love:", features.developers)}
               {renderFeatureList("Clients Love:", features.clients)}
             </section>
@@ -131,22 +152,14 @@ export default function Home({ hero, features, examples }: HomeProps) {
 
           {/* EXAMPLES */}
           {examples.pages.length > 0 && (
-            <section className="mt-10 md:mt-25">
+            <section>
               <h2 className="text-2xl md:text-3xl text-center">{examples.title}</h2>
-              <div className="flex flex-wrap justify-evenly mt-5 md:mt-15 gap-8">
+              <div className="grid md:grid-cols-2 gap-8 mt-5 md:mt-15">
                 {examples.pages.map((page, index) => (
-                  <div
-                    key={index}
-                    className="rounded-lg overflow-hidden shadow-lg md:w-2/5 md:max-w-1/2"
-                  >
-                    <div className="hover:scale-105 transition-transform duration-300">
+                  <div key={index} className="rounded-lg overflow-hidden shadow-lg aspect-[16/9]">
+                    <div className="hover:scale-105 transition-transform duration-300 h-full">
                       <a href={page.url} target="_blank" rel="noopener noreferrer">
-                        <Image
-                          src={page.image}
-                          alt={page.alt || page.title}
-                          width={800}
-                          height={450}
-                        />
+                        {renderExample(page)}
                       </a>
                     </div>
                   </div>
