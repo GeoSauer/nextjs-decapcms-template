@@ -14,6 +14,8 @@ I set out to build this template with the goal of being able to quickly spin up 
 
 ## Repo Layout
 
+_**Note**_ - I kept all of the landing page `jsx` in `index.tsx` so that you can use whatever componentization/file structure pattern you prefer.
+
 - `public/admin` - DecapCMS config and html files
 - `src/content` - directories containing MarkDown files with published CMS data
 - `src/lib/types/cms` - Type files for CMS data

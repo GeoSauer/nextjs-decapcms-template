@@ -16,45 +16,6 @@ interface HomeProps {
 export default function Home({ hero, features, examples }: HomeProps) {
   const currentYear = new Date().getFullYear();
 
-  const renderFeatureList = (title: string, features: DevFeature[] | ClientFeature[]) => {
-    if (features.length === 0) return null;
-
-    return (
-      <div className="text-left md:max-w-1/3">
-        <h2 className="text-2xl md:text-3xl text-center">{title}</h2>
-        <div className="flex flex-col gap-4 md:gap-8 mt-4 md:mt-10">
-          {features.map((feature, index) => (
-            <p key={index}>
-              <span className="font-bold">{feature.title} - </span>
-              <span className="text-gray-500">{feature.description}</span>
-            </p>
-          ))}
-        </div>
-      </div>
-    );
-  };
-
-  const renderExample = (page: Page) => {
-    const [imageExists, setImageExists] = useState(true);
-
-    return (
-      <>
-        {imageExists ? (
-          <img
-            src={page.image}
-            alt={page.alt || page.title}
-            onError={() => setImageExists(false)}
-            className="w-full"
-          />
-        ) : (
-          <div className="flex justify-center w-full h-full bg-gray-700">
-            <span className="text-2xl my-auto">{page.title}</span>
-          </div>
-        )}
-      </>
-    );
-  };
-
   return (
     <>
       <Head>
@@ -145,8 +106,8 @@ export default function Home({ hero, features, examples }: HomeProps) {
           {/* FEATURES */}
           {(features.clients.length > 0 || features.developers.length > 0) && (
             <section className="flex flex-col md:flex-row justify-evenly gap-20 md:gap-0">
-              {renderFeatureList("Developers Love:", features.developers)}
-              {renderFeatureList("Clients Love:", features.clients)}
+              <FeatureList title="Developers Love:" features={features.developers} />
+              <FeatureList title="Clients Love:" features={features.clients} />
             </section>
           )}
 
@@ -156,13 +117,7 @@ export default function Home({ hero, features, examples }: HomeProps) {
               <h2 className="text-2xl md:text-3xl text-center">{examples.title}</h2>
               <div className="grid md:grid-cols-2 gap-8 mt-5 md:mt-15">
                 {examples.pages.map((page, index) => (
-                  <div key={index} className="rounded-lg overflow-hidden shadow-lg aspect-[16/9]">
-                    <div className="hover:scale-105 transition-transform duration-300 h-full">
-                      <a href={page.url} target="_blank" rel="noopener noreferrer">
-                        {renderExample(page)}
-                      </a>
-                    </div>
-                  </div>
+                  <ExampleCard key={index} page={page} />
                 ))}
               </div>
             </section>
@@ -189,6 +144,58 @@ export default function Home({ hero, features, examples }: HomeProps) {
     </>
   );
 }
+
+interface FeatureListProps {
+  title: string;
+  features: DevFeature[] | ClientFeature[];
+}
+
+export const FeatureList = ({ title, features }: FeatureListProps) => {
+  if (features.length === 0) return null;
+
+  return (
+    <div className="text-left md:max-w-1/3">
+      <h2 className="text-2xl md:text-3xl text-center">{title}</h2>
+      <div className="flex flex-col gap-4 md:gap-8 mt-4 md:mt-10">
+        {features.map((feature, index) => (
+          <p key={index}>
+            <span className="font-bold">{feature.title} - </span>
+            <span className="text-gray-500">{feature.description}</span>
+          </p>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+interface ExampleCardProps {
+  page: Page;
+}
+
+export const ExampleCard = ({ page }: ExampleCardProps) => {
+  const [imageExists, setImageExists] = useState(true);
+
+  return (
+    <div className="rounded-lg overflow-hidden shadow-lg aspect-[16/9]">
+      <div className="hover:scale-105 transition-transform duration-300 h-full">
+        <a href={page.url} target="_blank" rel="noopener noreferrer">
+          {imageExists ? (
+            <img
+              src={page.image}
+              alt={page.alt || page.title}
+              onError={() => setImageExists(false)}
+              className="w-full"
+            />
+          ) : (
+            <div className="flex justify-center w-full h-full bg-gray-700">
+              <span className="text-2xl my-auto">{page.title}</span>
+            </div>
+          )}
+        </a>
+      </div>
+    </div>
+  );
+};
 
 export const getStaticProps: GetStaticProps = async () => {
   // Use the getFolderMarkups utility to fetch markdown data from a given folder
