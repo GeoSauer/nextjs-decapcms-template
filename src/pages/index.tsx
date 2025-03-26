@@ -129,7 +129,8 @@ export default function Home({ hero, features, examples }: HomeProps) {
         {/* FOOTER */}
         <footer className="w-full text-center bg-gray-950 text-gray-300 mt-30">
           <p className="py-1.5">
-            Copyright © {currentYear}{" "}
+            Copyright © 2025
+            {currentYear > 2025 ? ` - ${currentYear} ` : " "}
             <a
               className="hover:text-white"
               href="https://geosauer.com"

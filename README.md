@@ -14,7 +14,7 @@ I set out to build this template with the goal of being able to quickly spin up 
 
 ## Repo Layout
 
-_**Note**_ - I kept all of the landing page `jsx` in `index.tsx` so that you can use whatever componentization/file structure pattern you prefer.
+_**Note**_ - I kept all of the landing page `jsx` confined to `index.tsx` so that you can use whatever componentization/file structure pattern you prefer.
 
 - `public/admin` - DecapCMS config and html files
 - `src/content` - directories containing MarkDown files with published CMS data
@@ -27,7 +27,7 @@ All of the building blocks are already in place, but there's a few steps necessa
 
 ### Deployment/Config Steps
 
-#### Since this project utilizes DecapCMS (formerly Netlify CMS) it **must** be deployed on Netlify
+_**Note**_ - Since this project utilizes DecapCMS (formerly Netlify CMS) it **must** be deployed on Netlify
 
 - After cloning the repo and installing dependencies, go ahead and deploy it on Netlify. During deploy ensure that the publish directory is set to 'out'.
 - Navigate to `Site configuration/Identity/Registration` - choose between 'open' or 'invite only', you'll probably want to choose the latter.
@@ -46,7 +46,7 @@ _**IMPORTANT**_ - If you have multiple DecapCMS projects, be sure to swap to the
 
 ### Adding/Editing CMS Fields
 
-The structure of all CMS fields is defined in `public/admin/config.yml` (**Note** - changing the name of the `admin` directory will also change the route to the CMS dashboard, just be sure to update any references to the path). I've tried to provide some good examples of various structures and have mainly stuck with [file collections](https://decapcms.org/docs/collection-file/), but there's plenty of other examples in the DecapCMS docs.
+The structure of all CMS fields is defined in `public/admin/config.yml` (_**Note**_ - changing the name of the `admin` directory will also change the route to the CMS dashboard, just be sure to update any references to the path). I've tried to provide some good examples of various structures and have mainly stuck with [file collections](https://decapcms.org/docs/collection-file/), but there's plenty of other examples in the DecapCMS [docs](https://decapcms.org/docs).
 
 _**Tip**_ - To quickly verify your `.yml` syntax and collection structure keep the CMS open locally.
 
