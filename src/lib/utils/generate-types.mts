@@ -30,7 +30,11 @@ const mapWidgetToType = (widget: string, field: any): string => {
       if (field.field) {
         return `${mapWidgetToType(field.field.widget, field.field)}[]`;
       } else if (field.fields) {
-        return `{ ${field.fields.map((subField: any) => `${subField.name}: ${mapWidgetToType(subField.widget, subField)};`).join(" ")} }[]`;
+        return `{ ${field.fields
+          .map(
+            (subField: any) => `${subField.name}: ${mapWidgetToType(subField.widget, subField)};`
+          )
+          .join(" ")} }[]`;
       }
       return "string[]"; // Default for lists
     case "relation":
@@ -38,7 +42,12 @@ const mapWidgetToType = (widget: string, field: any): string => {
     case "map":
       return "{ [key: string]: any }";
     case "object":
-      return `{ ${field.fields.map((subField: any) => `${toPascalCase(subField.name)}: ${mapWidgetToType(subField.widget, subField)};`).join(" ")} }`;
+      return `{ ${field.fields
+        .map(
+          (subField: any) =>
+            `${toPascalCase(subField.name)}: ${mapWidgetToType(subField.widget, subField)};`
+        )
+        .join(" ")} }`;
     case "code":
       return "string";
     case "hidden":
@@ -52,7 +61,7 @@ const mapWidgetToType = (widget: string, field: any): string => {
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const configPath = path.resolve(__dirname, "../../../public/admin/config.yml");
-const outputDir = path.resolve(__dirname, "../types/cms");
+const outputDir = path.resolve(__dirname, "../../types/cms");
 
 // Ensure output directory exists
 if (!fs.existsSync(outputDir)) {

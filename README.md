@@ -8,8 +8,10 @@ I set out to build this template with the goal of being able to quickly spin up 
 - Content management with [DecapCMS](https://decapcms.org/docs).
 - Deployed on [Netlify](https://www.netlify.com/).
 - Contact form to email service API [Web3Forms](https://web3forms.com/).
+- Analytics tracked with [Google Analytics](https://developers.google.com/analytics/learn/beginners#step-1:-set-up-google-analytics).
 - Markdown formatting with [ReactMarkdown](https://www.npmjs.com/package/react-markdown/v/8.0.6).
 - Styled with [tailwindcss](https://tailwindcss.com/).
+- Icons from [React Icons](https://www.npmjs.com/package/react-icons).
 - TypeScript
 
 ## Repo Layout
@@ -18,8 +20,8 @@ _**Note**_ - I kept all of the landing page `jsx` confined to `index.tsx` so tha
 
 - `public/admin` - DecapCMS config and html files
 - `src/content` - directories containing MarkDown files with published CMS data
-- `src/lib/types/cms` - Type files for CMS data
-- `src/pages/index.tsx` - root of the project where all data is fetched
+- `src/types/cms` - Type files for CMS data
+- `src/pages/index.tsx` - root page where all data is fetched
 
 ## Getting Started
 
@@ -37,6 +39,7 @@ _**Note**_ - Since this project utilizes DecapCMS (formerly Netlify CMS) it **mu
 ### Repo Steps
 
 - In `public/admin/config.yml` look for the TODOs and edit the `repo` and `identity_url` to your values.
+- At the root of the repo create an `.env.local` file and add `NEXT_PUBLIC_WEB3FORMS_API_KEY` if you want to use the provided form, and `NEXT_PUBLIC_GA_ID` if you want to leverage Google Analytics.
 
 And now you should be all set! Run `npm run dev` in the console and navigate to [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 

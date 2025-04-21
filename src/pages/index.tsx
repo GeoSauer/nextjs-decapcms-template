@@ -1,11 +1,12 @@
-import Image from "next/image";
 import Head from "next/head";
 import { GetStaticProps } from "next";
 import { getFolderMarkups } from "@/lib/utils/markdown";
 // import ReactMarkdown from "react-markdown";
 import Script from "next/script";
-import { ClientFeature, DevFeature, Examples, Features, Hero, Page } from "@/lib/types/cms";
 import { useState } from "react";
+import { ClientFeature, DevFeature, Examples, Features, Hero, Page } from "@/types/cms/HomePage";
+import { useAnalytics } from "@/lib/hooks/useAnalytics";
+import { RxExternalLink, RxGithubLogo } from "react-icons/rx";
 
 interface HomeProps {
   hero: Hero;
@@ -14,6 +15,7 @@ interface HomeProps {
 }
 
 export default function Home({ hero, features, examples }: HomeProps) {
+  const { trackExternalLink } = useAnalytics();
   const currentYear = new Date().getFullYear();
 
   return (
@@ -35,6 +37,7 @@ export default function Home({ hero, features, examples }: HomeProps) {
               href="https://nextjs.org/docs"
               target="_blank"
               rel="noopener noreferrer"
+              onClick={() => trackExternalLink("Header", "https://nextjs.org/docs")}
             >
               Next.js
             </a>{" "}
@@ -44,18 +47,22 @@ export default function Home({ hero, features, examples }: HomeProps) {
               href="https://decapcms.org/"
               target="_blank"
               rel="noopener noreferrer"
+              onClick={() => trackExternalLink("Header", "https://decapcms.org/")}
             >
               DecapCMS
             </a>
             <span className="hidden md:inline"> Template</span>
           </p>
           <a
-            className="hover:bg-white transition-transform my-auto bg-gray-300 p-[1px] pt-[.5px] rounded-full"
+            className="hover:bg-white bg-gray-300 p-[1px] rounded-full "
             href="https://github.com/GeoSauer/nextjs-decapcms-template"
             target="_blank"
             rel="noopener noreferrer"
+            onClick={() =>
+              trackExternalLink("Header", "https://github.com/GeoSauer/nextjs-decapcms-template")
+            }
           >
-            <Image src="/icons/github.svg" alt="GitHub Logo" width={30} height={30} />
+            <RxGithubLogo className="text-gray-950" size={30} />
           </a>
         </header>
         <main className="p-4 flex flex-col gap-15 md:gap-35 flex-grow max-w-7xl mx-auto mt-30 md:mt-40">
@@ -67,38 +74,26 @@ export default function Home({ hero, features, examples }: HomeProps) {
               <span className="text-md text-gray-500 md:text-lg">
                 {hero?.details.text}{" "}
                 <a
-                  className="text-gray-300 hover:underline hover:text-white"
+                  className="text-gray-300 hover:underline hover:text-white inline-flex items-center gap-1"
                   href={hero.details.url}
                   target="_blank"
                   rel="noopener noreferrer"
+                  onClick={() => trackExternalLink("Hero Details", hero.details.url)}
                 >
                   {hero?.details.link}
+                  <RxExternalLink />
                 </a>
                 .
               </span>
               <a
-                className="bg-gray-900 text-gray-300 hover:bg-gray-700 transition-colors rounded-full px-4 py-2 max-w-fit mx-auto md:ml-40 inline-flex items-center gap-2 cursor-pointer mt-10 md:mt-3"
+                className="bg-gray-900 text-gray-300 hover:bg-gray-700 transition-colors rounded-full px-4 py-2 max-w-fit mx-auto md:ml-40 inline-flex items-center gap-1 cursor-pointer mt-10 md:mt-3"
                 href={hero?.cta.url}
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={() => trackExternalLink("Hero CTA", hero.cta.url)}
               >
                 {hero?.cta.text}
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className="lucide lucide-square-arrow-out-up-right"
-                >
-                  <path d="M21 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h6" />
-                  <path d="m21 3-9 9" />
-                  <path d="M15 3h6v6" />
-                </svg>
+                <RxExternalLink />
               </a>
             </section>
           )}
