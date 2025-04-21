@@ -5,7 +5,6 @@ import { getFolderMarkups } from "@/lib/utils/markdown";
 import Script from "next/script";
 import { useState } from "react";
 import { ClientFeature, DevFeature, Examples, Features, Hero, Page } from "@/types/cms/HomePage";
-import { useAnalytics } from "@/lib/hooks/useAnalytics";
 import { RxExternalLink, RxGithubLogo } from "react-icons/rx";
 
 interface HomeProps {
@@ -15,7 +14,6 @@ interface HomeProps {
 }
 
 export default function Home({ hero, features, examples }: HomeProps) {
-  const { trackExternalLink } = useAnalytics();
   const currentYear = new Date().getFullYear();
 
   return (
@@ -37,7 +35,6 @@ export default function Home({ hero, features, examples }: HomeProps) {
               href="https://nextjs.org/docs"
               target="_blank"
               rel="noopener noreferrer"
-              onClick={() => trackExternalLink("Header", "https://nextjs.org/docs")}
             >
               Next.js
             </a>{" "}
@@ -47,7 +44,6 @@ export default function Home({ hero, features, examples }: HomeProps) {
               href="https://decapcms.org/"
               target="_blank"
               rel="noopener noreferrer"
-              onClick={() => trackExternalLink("Header", "https://decapcms.org/")}
             >
               DecapCMS
             </a>
@@ -58,9 +54,6 @@ export default function Home({ hero, features, examples }: HomeProps) {
             href="https://github.com/GeoSauer/nextjs-decapcms-template"
             target="_blank"
             rel="noopener noreferrer"
-            onClick={() =>
-              trackExternalLink("Header", "https://github.com/GeoSauer/nextjs-decapcms-template")
-            }
           >
             <RxGithubLogo className="text-gray-950" size={30} />
           </a>
@@ -78,7 +71,6 @@ export default function Home({ hero, features, examples }: HomeProps) {
                   href={hero.details.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  onClick={() => trackExternalLink("Hero Details", hero.details.url)}
                 >
                   {hero?.details.link}
                   <RxExternalLink />
@@ -90,7 +82,6 @@ export default function Home({ hero, features, examples }: HomeProps) {
                 href={hero?.cta.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                onClick={() => trackExternalLink("Hero CTA", hero.cta.url)}
               >
                 {hero?.cta.text}
                 <RxExternalLink />
