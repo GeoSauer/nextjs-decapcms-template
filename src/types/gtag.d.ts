@@ -1,3 +1,7 @@
-declare interface Window {
-  gtag: (type: string, action: string, config: { [key: string]: any }) => void;
+declare global {
+  interface Window {
+    dataLayer: any[];
+  }
 }
+
+export {};

@@ -6,6 +6,7 @@ import Script from "next/script";
 import { useState } from "react";
 import { ClientFeature, DevFeature, Examples, Features, Hero, Page } from "@/types/cms/HomePage";
 import { RxExternalLink, RxGithubLogo } from "react-icons/rx";
+import { useAnalytics } from "@/lib/hooks/useAnalytics";
 
 interface HomeProps {
   hero: Hero;
@@ -14,6 +15,7 @@ interface HomeProps {
 }
 
 export default function Home({ hero, features, examples }: HomeProps) {
+  const { trackExternalLink } = useAnalytics();
   const currentYear = new Date().getFullYear();
 
   return (
@@ -35,6 +37,7 @@ export default function Home({ hero, features, examples }: HomeProps) {
               href="https://nextjs.org/docs"
               target="_blank"
               rel="noopener noreferrer"
+              onClick={() => trackExternalLink("https://nextjs.org/docs", "Next.js")}
             >
               Next.js
             </a>{" "}
@@ -44,16 +47,20 @@ export default function Home({ hero, features, examples }: HomeProps) {
               href="https://decapcms.org/"
               target="_blank"
               rel="noopener noreferrer"
+              onClick={() => trackExternalLink(hero.cta.url, hero.cta.text)}
             >
               DecapCMS
             </a>
             <span className="hidden md:inline"> Template</span>
           </p>
           <a
-            className="hover:bg-white bg-gray-300 p-[1px] rounded-full "
+            className="hover:bg-white bg-gray-300 p-[1px] rounded-full max-h-fit my-auto"
             href="https://github.com/GeoSauer/nextjs-decapcms-template"
             target="_blank"
             rel="noopener noreferrer"
+            onClick={() =>
+              trackExternalLink("https://github.com/GeoSauer/nextjs-decapcms-template", "GitHub")
+            }
           >
             <RxGithubLogo className="text-gray-950" size={30} />
           </a>
@@ -62,15 +69,16 @@ export default function Home({ hero, features, examples }: HomeProps) {
           {/* HERO */}
           {hero && (
             <section className="flex flex-col gap-4 md:gap-8">
-              <h1 className="text-2xl md:text-7xl">{hero?.title}</h1>
+              <h1 className="text-3xl sm:text-5xl md:text-7xl">{hero?.title}</h1>
               <p className="text-md text-gray-500 md:text-xl">{hero?.description}</p>
               <span className="text-md text-gray-500 md:text-lg">
                 {hero?.details.text}{" "}
                 <a
                   className="text-gray-300 hover:underline hover:text-white inline-flex items-center gap-1"
-                  href={hero.details.url}
+                  href={hero?.details.url}
                   target="_blank"
                   rel="noopener noreferrer"
+                  onClick={() => trackExternalLink(hero.details.url, hero.details.link)}
                 >
                   {hero?.details.link}
                   <RxExternalLink />
@@ -82,6 +90,7 @@ export default function Home({ hero, features, examples }: HomeProps) {
                 href={hero?.cta.url}
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={() => trackExternalLink(hero.cta.url, hero.cta.text)}
               >
                 {hero?.cta.text}
                 <RxExternalLink />
@@ -160,12 +169,18 @@ interface ExampleCardProps {
 }
 
 export const ExampleCard = ({ page }: ExampleCardProps) => {
+  const { trackExternalLink } = useAnalytics();
   const [imageExists, setImageExists] = useState(true);
 
   return (
     <div className="rounded-lg overflow-hidden shadow-lg aspect-[16/9]">
       <div className="hover:scale-105 transition-transform duration-300 h-full">
-        <a href={page.url} target="_blank" rel="noopener noreferrer">
+        <a
+          href={page.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          onClick={() => trackExternalLink(page.url, page.title)}
+        >
           {imageExists ? (
             <img
               src={page.image}
