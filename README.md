@@ -7,7 +7,7 @@ I set out to build this template with the goal of being able to quickly spin up 
 - Bootstrapped with [Next.js using the pages router](https://nextjs.org/learn-pages-router).
 - Content management with [DecapCMS](https://decapcms.org/docs).
 - Deployed on [Netlify](https://www.netlify.com/).
-- Contact form to email service API [Web3Forms](https://web3forms.com/).
+- Contact form to email service API [Netlify Forms](https://docs.netlify.com/forms/setup/).
 - Analytics tracked with [Google Analytics](https://developers.google.com/analytics/learn/beginners#step-1:-set-up-google-analytics), specifically [Google Tag Manager](https://tagmanager.google.com/).
 - Markdown formatting with [ReactMarkdown](https://www.npmjs.com/package/react-markdown/v/8.0.6).
 - Styled with [tailwindcss](https://tailwindcss.com/).
@@ -35,12 +35,13 @@ _**Note**_ - Since this project utilizes DecapCMS (formerly Netlify CMS) it **mu
 - Navigate to `Site configuration/Identity/Registration` - choose between 'open' or 'invite only', you'll probably want to choose the latter.
 - Navigate to `Site configuration/Identity/Users` - invite yourself/client. Be sure to open the invite email and create a password for your profile.
 - Navigate to `Site configuration/Identity/Services` - enable Git Gateway.
+- Navigate to `Forms` - enable form detection and setup an email notification so that submissions are delivered to your inbox.
 - Follow this [guide](https://support.google.com/analytics/answer/9304153?sjid=8472082799570998813-NC#add-tag&zippy=%2Cadd-the-google-tag-directly-to-your-web-pages) to get your Google Analytics account set up.
 
 ### Repo Steps
 
 - In `public/admin/config.yml` look for the TODOs and edit the `repo` and `identity_url` to your values.
-- Replace instances of `NEXT_PUBLIC_WEB3FORMS_API_KEY` and `NEXT_PUBLIC_GTM_ID` with your actual values as they do not need to be secrets.
+- Replace `NEXT_PUBLIC_GTM_ID` with your actual value as it does not need to be secret.
 
 And now you should be all set! Run `npm run dev` in the console and navigate to [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 

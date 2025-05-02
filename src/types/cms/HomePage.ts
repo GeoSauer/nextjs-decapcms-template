@@ -22,6 +22,12 @@ export type Examples = {
   pages: Page[];
 };
 
+export type Contact = {
+  show: boolean;
+  title: string;
+  subtitle: string;
+};
+
 export type DevFeature = {
   title: string;
   description: string;

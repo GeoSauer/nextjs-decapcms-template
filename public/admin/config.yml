@@ -69,3 +69,10 @@ collections:
               - { name: "url", label: "URL", widget: "string" }
               - { name: "image", label: "Image", widget: "image" }
               - { name: "alt", label: "Alt Text", widget: "string", required: false }
+      - label: "Contact Form"
+        name: "contact"
+        file: "src/content/home-page/contact.md"
+        fields:
+          - { name: "show", label: "Show Form", widget: "boolean" }
+          - { name: "title", label: "Title", widget: "string" }
+          - { name: "subtitle", label: "Subtitle", widget: "string" }

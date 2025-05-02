@@ -35,6 +35,19 @@ export default function Document() {
         </noscript>
         <Main />
         <NextScript />
+        {/* <!-- A little help for the Netlify post-processing bots --> */}
+        {/* // TODO: uncomment these and add them to the <form> to enable file upload */}
+        {/* encType="multipart/form-data"
+				 data-netlify-accept="image/*" */}
+        <form name="contact" hidden data-netlify="true" netlify-honeypot="bot-field">
+          <input type="text" name="name" />
+          <input type="email" name="email" />
+          <input type="tel" name="phone" />
+          <textarea name="message"></textarea>
+          {/* // TODO: uncomment to enable file upload */}
+          {/* <input type="file" name="file" /> */}
+          <input name="bot-field" />
+        </form>
       </body>
     </Html>
   );

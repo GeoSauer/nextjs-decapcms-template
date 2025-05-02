@@ -3,18 +3,28 @@ import { GetStaticProps } from "next";
 import { getFolderMarkups } from "@/lib/utils/markdown";
 // import ReactMarkdown from "react-markdown";
 import Script from "next/script";
-import { useState } from "react";
-import { ClientFeature, DevFeature, Examples, Features, Hero, Page } from "@/types/cms/HomePage";
+import { useCallback, useState } from "react";
+import {
+  ClientFeature,
+  DevFeature,
+  Examples,
+  Features,
+  Hero,
+  Page,
+  Contact,
+} from "@/types/cms/HomePage";
 import { RxExternalLink, RxGithubLogo } from "react-icons/rx";
 import { useAnalytics } from "@/lib/hooks/useAnalytics";
+import { useToast } from "@/components/Toast/ToastContext";
 
 interface HomeProps {
   hero: Hero;
   features: Features;
   examples: Examples;
+  contact: Contact;
 }
 
-export default function Home({ hero, features, examples }: HomeProps) {
+export default function Home({ hero, features, examples, contact }: HomeProps) {
   const { trackExternalLink } = useAnalytics();
   const currentYear = new Date().getFullYear();
 
@@ -97,7 +107,6 @@ export default function Home({ hero, features, examples }: HomeProps) {
               </a>
             </section>
           )}
-
           {/* FEATURES */}
           {(features.clients.length > 0 || features.developers.length > 0) && (
             <section className="flex flex-col md:flex-row justify-evenly gap-20 md:gap-0">
@@ -105,7 +114,6 @@ export default function Home({ hero, features, examples }: HomeProps) {
               <FeatureList title="Clients Love:" features={features.clients} />
             </section>
           )}
-
           {/* EXAMPLES */}
           {examples.pages.length > 0 && (
             <section>
@@ -117,8 +125,10 @@ export default function Home({ hero, features, examples }: HomeProps) {
               </div>
             </section>
           )}
-
           {/* CONTACT */}
+          {/* There's a static version of this form in `src/pages/_document.tsx` for Netlify to
+          process the form submission. */}
+          {contact.show && <ContactForm {...contact} />}
         </main>
 
         {/* FOOTER */}
@@ -141,12 +151,30 @@ export default function Home({ hero, features, examples }: HomeProps) {
   );
 }
 
+export const getStaticProps: GetStaticProps = async () => {
+  // Use the getFolderMarkups utility to fetch markdown data from a given folder
+  const homePageMarkups = getFolderMarkups("src/content/home-page");
+
+  //* Alternatively, use the getMarkup utility to fetch a single markdown file
+  // const heroMarkups = getMarkup("src/content/home-page", "hero.md");
+
+  // Return the data as props
+  return {
+    props: {
+      hero: homePageMarkups.hero || null,
+      features: homePageMarkups.features || null,
+      examples: homePageMarkups.examples || [],
+      contact: homePageMarkups.contact || null,
+    },
+  };
+};
+
 interface FeatureListProps {
   title: string;
   features: DevFeature[] | ClientFeature[];
 }
 
-export const FeatureList = ({ title, features }: FeatureListProps) => {
+const FeatureList = ({ title, features }: FeatureListProps) => {
   if (features.length === 0) return null;
 
   return (
@@ -168,7 +196,7 @@ interface ExampleCardProps {
   page: Page;
 }
 
-export const ExampleCard = ({ page }: ExampleCardProps) => {
+const ExampleCard = ({ page }: ExampleCardProps) => {
   const { trackExternalLink } = useAnalytics();
   const [imageExists, setImageExists] = useState(true);
 
@@ -199,19 +227,189 @@ export const ExampleCard = ({ page }: ExampleCardProps) => {
   );
 };
 
-export const getStaticProps: GetStaticProps = async () => {
-  // Use the getFolderMarkups utility to fetch markdown data from a given folder
-  const homePageMarkups = getFolderMarkups("src/content/home-page");
+interface ContactFormProps {
+  title: string;
+  subtitle: string;
+}
 
-  //* Alternatively, use the getMarkup utility to fetch a single markdown file
-  // const heroMarkups = getMarkup("src/content/home-page", "hero.md");
+const ContactForm = ({ title, subtitle }: ContactFormProps) => {
+  const emptyForm = { name: "", email: "", message: "" };
+  const [formData, setFormData] = useState(emptyForm);
+  const [loading, setLoading] = useState(false);
+  const { addToast } = useToast();
 
-  // Return the data as props
-  return {
-    props: {
-      hero: homePageMarkups.hero || null,
-      features: homePageMarkups.features || null,
-      examples: homePageMarkups.examples || [],
+  const invalidForm = !formData.name || !formData.email || !formData.message;
+
+  // TODO: uncomment to enable file upload
+  // const fileInputRef = useRef<HTMLInputElement | null>(null);
+  // const MAX_FILE_SIZE = 10 * 1024 * 1024; // Limit set by Netlify for file uploads (10MB)
+
+  const handleChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+      setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
     },
-  };
+    []
+  );
+
+  // const handleFileChange = useCallback(
+  //   (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  //     if (e.target.type === "file") {
+  //       const files = Array.from((e.target as HTMLInputElement).files || []);
+  //       const invalidFiles = files.filter((file) => file.size > MAX_FILE_SIZE);
+
+  //       if (invalidFiles.length > 0) {
+  //         toaster.create({
+  //           description: "Files must be under 10MB each",
+  //           type: "error",
+  //         });
+  //         (e.target as HTMLInputElement).value = "";
+  //         return;
+  //       }
+  //     }
+  //   },
+  //   []
+  // );
+
+  const handleSubmit = useCallback(
+    async (e: React.FormEvent) => {
+      e.preventDefault();
+      setLoading(true);
+
+      try {
+        const myForm = e.target as HTMLFormElement;
+        const formData = new FormData(myForm);
+
+        const response = await fetch("/", {
+          method: "POST",
+          // TODO: replace headers and body with the following to enable file upload
+          // headers: { "Content-Type": "multipart/form-data" },
+          // body: formData,
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: new URLSearchParams(formData as any).toString(),
+        });
+
+        if (response.ok) {
+          addToast("Message sent successfully! We'll get back to you soon.", "success", 5000);
+          setFormData(emptyForm);
+          // TODO: uncomment to enable file upload
+          // if (fileInputRef.current !== null) {
+          //   fileInputRef.current.value = "";
+          // }
+        } else {
+          throw new Error(`Response status: ${response.status}`);
+        }
+      } catch (err) {
+        console.error("Form submission error:", err);
+        addToast("Error sending message, please try again", "error");
+      } finally {
+        setLoading(false);
+      }
+    },
+    [emptyForm]
+  );
+
+  // TODO: uncomment these and add them to the <form> to enable file upload */
+  //  encType="multipart/form-data"
+  // data-netlify-accept="image/*"
+  return (
+    <form
+      onSubmit={handleSubmit}
+      name="contact"
+      method="POST"
+      data-netlify="true"
+      data-netlify-honeypot="bot-field"
+      className="w-full max-w-2xl mx-auto p-6 space-y-6"
+    >
+      {/* Required hidden input for Netlify forms */}
+      <input type="hidden" name="form-name" value="contact" />
+
+      {/* Hidden honeypot field to prevent spam */}
+      <p hidden>
+        <label>
+          <input name="bot-field" />
+        </label>
+      </p>
+
+      <fieldset className="space-y-6">
+        <div className="space-y-2">
+          <legend className="text-2xl md:text-3xl text-center">{title}</legend>
+          <p className="text-gray-300">{subtitle}</p>
+        </div>
+
+        <div className="space-y-4">
+          <div className="flex flex-col gap-2">
+            <label htmlFor="name" className="text-white md:w-24">
+              Name <span className="text-red-500">*</span>
+            </label>
+            <input
+              required
+              type="text"
+              id="name"
+              name="name"
+              placeholder="Name"
+              value={formData.name}
+              onChange={handleChange}
+              className="flex-grow p-2 rounded bg-white text-gray-900"
+            />
+          </div>
+
+          <div className="flex flex-col gap-2">
+            <label htmlFor="email" className="text-white md:w-24">
+              Email <span className="text-red-500">*</span>
+            </label>
+            <input
+              required
+              type="email"
+              id="email"
+              name="email"
+              placeholder="me@example.com"
+              value={formData.email}
+              onChange={handleChange}
+              className="flex-grow p-2 rounded bg-white text-gray-900"
+            />
+          </div>
+
+          <div className="flex flex-col gap-2">
+            <label htmlFor="message" className="text-white md:w-24">
+              Message <span className="text-red-500">*</span>
+            </label>
+            <textarea
+              required
+              id="message"
+              name="message"
+              placeholder="What can we help you with?"
+              value={formData.message}
+              onChange={handleChange}
+              rows={4}
+              className="flex-grow p-2 rounded bg-white text-gray-900"
+            />
+          </div>
+
+          {/* //TODO: uncomment to enable file upload */}
+          {/* <div className="flex flex-col gap-2">
+						<label htmlFor="file" className="text-white md:w-24">
+							Image
+						</label>
+						<input
+							ref={fileInputRef}
+						  onChange={handleFileChange}
+							type="file"
+							id="file"
+							name="file"
+							accept="image/*"
+							className="flex-grow text-white "
+						/>
+					</div> */}
+        </div>
+
+        <button
+          type="submit"
+          disabled={loading || invalidForm}
+          className="w-full md:w-auto px-6 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded transition-colors duration-200 mx-auto block"
+        >
+          {loading ? "Sending..." : "Send Message"}
+        </button>
+      </fieldset>
+    </form>
+  );
 };
