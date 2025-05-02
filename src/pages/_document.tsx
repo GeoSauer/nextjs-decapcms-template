@@ -42,7 +42,6 @@ export default function Document() {
         <form name="contact" hidden data-netlify="true" netlify-honeypot="bot-field">
           <input type="text" name="name" />
           <input type="email" name="email" />
-          <input type="tel" name="phone" />
           <textarea name="message"></textarea>
           {/* // TODO: uncomment to enable file upload */}
           {/* <input type="file" name="file" /> */}

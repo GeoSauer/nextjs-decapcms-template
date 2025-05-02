@@ -57,7 +57,7 @@ export default function Home({ hero, features, examples, contact }: HomeProps) {
               href="https://decapcms.org/"
               target="_blank"
               rel="noopener noreferrer"
-              onClick={() => trackExternalLink(hero.cta.url, hero.cta.text)}
+              onClick={() => trackExternalLink("https://decapcms.org/docs/intro/", "DecapCMS")}
             >
               DecapCMS
             </a>
@@ -276,8 +276,8 @@ const ContactForm = ({ title, subtitle }: ContactFormProps) => {
       setLoading(true);
 
       try {
-        const myForm = e.target as HTMLFormElement;
-        const formData = new FormData(myForm);
+        const form = e.target as HTMLFormElement;
+        const formData = new FormData(form);
 
         const response = await fetch("/", {
           method: "POST",
@@ -305,7 +305,7 @@ const ContactForm = ({ title, subtitle }: ContactFormProps) => {
         setLoading(false);
       }
     },
-    [emptyForm]
+    [emptyForm, addToast]
   );
 
   // TODO: uncomment these and add them to the <form> to enable file upload */
@@ -313,22 +313,20 @@ const ContactForm = ({ title, subtitle }: ContactFormProps) => {
   // data-netlify-accept="image/*"
   return (
     <form
-      onSubmit={handleSubmit}
       name="contact"
       method="POST"
       data-netlify="true"
       data-netlify-honeypot="bot-field"
+      onSubmit={handleSubmit}
       className="w-full max-w-2xl mx-auto p-6 space-y-6"
     >
       {/* Required hidden input for Netlify forms */}
       <input type="hidden" name="form-name" value="contact" />
 
       {/* Hidden honeypot field to prevent spam */}
-      <p hidden>
-        <label>
-          <input name="bot-field" />
-        </label>
-      </p>
+      <div hidden>
+        <input name="bot-field" />
+      </div>
 
       <fieldset className="space-y-6">
         <div className="space-y-2">
