@@ -1,7 +1,6 @@
 import Head from "next/head";
 import { GetStaticProps } from "next";
 import { getFolderMarkups } from "@/lib/utils/markdown";
-// import ReactMarkdown from "react-markdown";
 import Script from "next/script";
 import { useCallback, useState } from "react";
 import {
@@ -25,9 +24,6 @@ interface HomeProps {
 }
 
 export default function Home({ hero, features, examples, contact }: HomeProps) {
-  const { trackExternalLink } = useAnalytics();
-  const currentYear = new Date().getFullYear();
-
   return (
     <>
       <Head>
@@ -41,72 +37,13 @@ export default function Home({ hero, features, examples, contact }: HomeProps) {
       <div className="bg-gradient-to-br from-gray-700 to-gray-900 min-h-screen w-full text-gray-300 flex flex-col justify-between">
         {/* HEADER */}
         <header className="fixed w-full text-center md:text-left flex bg-gray-950 justify-between p-4 md:px-15 z-1">
-          <p className="text-2xl font-bold">
-            <a
-              className="hover:text-white"
-              href="https://nextjs.org/docs"
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={() => trackExternalLink("https://nextjs.org/docs", "Next.js")}
-            >
-              Next.js
-            </a>{" "}
-            +{" "}
-            <a
-              className="hover:text-white"
-              href="https://decapcms.org/"
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={() => trackExternalLink("https://decapcms.org/docs/intro/", "DecapCMS")}
-            >
-              DecapCMS
-            </a>
-            <span className="hidden md:inline"> Template</span>
-          </p>
-          <a
-            className="hover:bg-white bg-gray-300 p-[1px] rounded-full max-h-fit my-auto"
-            href="https://github.com/GeoSauer/nextjs-decapcms-template"
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={() =>
-              trackExternalLink("https://github.com/GeoSauer/nextjs-decapcms-template", "GitHub")
-            }
-          >
-            <RxGithubLogo className="text-gray-950" size={30} />
-          </a>
+          <HeaderContent />
         </header>
+
         <main className="p-4 flex flex-col gap-15 md:gap-35 flex-grow max-w-7xl mx-auto mt-30 md:mt-40">
           {/* HERO */}
-          {hero && (
-            <section className="flex flex-col gap-4 md:gap-8">
-              <h1 className="text-3xl sm:text-5xl md:text-7xl">{hero?.title}</h1>
-              <p className="text-md text-gray-500 md:text-xl">{hero?.description}</p>
-              <span className="text-md text-gray-500 md:text-lg">
-                {hero?.details.text}{" "}
-                <a
-                  className="text-gray-300 hover:underline hover:text-white inline-flex items-center gap-1"
-                  href={hero?.details.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={() => trackExternalLink(hero.details.url, hero.details.link)}
-                >
-                  {hero?.details.link}
-                  <RxExternalLink />
-                </a>
-                .
-              </span>
-              <a
-                className="bg-gray-900 text-gray-300 hover:bg-gray-700 transition-colors rounded-full px-4 py-2 max-w-fit mx-auto md:ml-40 inline-flex items-center gap-1 cursor-pointer mt-10 md:mt-3"
-                href={hero?.cta.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={() => trackExternalLink(hero.cta.url, hero.cta.text)}
-              >
-                {hero?.cta.text}
-                <RxExternalLink />
-              </a>
-            </section>
-          )}
+          {hero && <HeroContent {...hero} />}
+
           {/* FEATURES */}
           {(features.clients.length > 0 || features.developers.length > 0) && (
             <section className="flex flex-col md:flex-row justify-evenly gap-20 md:gap-0">
@@ -114,17 +51,19 @@ export default function Home({ hero, features, examples, contact }: HomeProps) {
               <FeatureList title="Clients Love:" features={features.clients} />
             </section>
           )}
+
           {/* EXAMPLES */}
           {examples.pages.length > 0 && (
             <section>
               <h2 className="text-2xl md:text-3xl text-center">{examples.title}</h2>
               <div className="grid md:grid-cols-2 gap-8 mt-5 md:mt-15">
                 {examples.pages.map((page, index) => (
-                  <ExampleCard key={index} page={page} />
+                  <ExampleCard key={index} {...page} />
                 ))}
               </div>
             </section>
           )}
+
           {/* CONTACT */}
           {/* There's a static version of this form in `src/pages/_document.tsx` for Netlify to
           process the form submission. */}
@@ -133,18 +72,7 @@ export default function Home({ hero, features, examples, contact }: HomeProps) {
 
         {/* FOOTER */}
         <footer className="w-full text-center bg-gray-950 text-gray-300 mt-30">
-          <p className="py-1.5">
-            Copyright © 2025
-            {currentYear > 2025 ? ` - ${currentYear} ` : " "}
-            <a
-              className="hover:text-white"
-              href="https://geosauer.com"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Geo Sauer
-            </a>
-          </p>
+          <FooterContent />
         </footer>
       </div>
     </>
@@ -167,6 +95,83 @@ export const getStaticProps: GetStaticProps = async () => {
       contact: homePageMarkups.contact || null,
     },
   };
+};
+
+const HeaderContent = () => {
+  const { trackExternalLink } = useAnalytics();
+
+  return (
+    <>
+      <p className="text-2xl font-bold">
+        <a
+          className="hover:text-white"
+          href="https://nextjs.org/docs"
+          target="_blank"
+          rel="noopener noreferrer"
+          onClick={() => trackExternalLink("https://nextjs.org/docs", "Next.js")}
+        >
+          Next.js
+        </a>{" "}
+        +{" "}
+        <a
+          className="hover:text-white"
+          href="https://decapcms.org/"
+          target="_blank"
+          rel="noopener noreferrer"
+          onClick={() => trackExternalLink("https://decapcms.org/docs/intro/", "DecapCMS")}
+        >
+          DecapCMS
+        </a>
+        <span className="hidden md:inline"> Template</span>
+      </p>
+      <a
+        className="hover:bg-white bg-gray-300 p-[1px] rounded-full max-h-fit my-auto"
+        href="https://github.com/GeoSauer/nextjs-decapcms-template"
+        target="_blank"
+        rel="noopener noreferrer"
+        onClick={() =>
+          trackExternalLink("https://github.com/GeoSauer/nextjs-decapcms-template", "GitHub")
+        }
+      >
+        <RxGithubLogo className="text-gray-950" size={30} />
+      </a>
+    </>
+  );
+};
+
+const HeroContent = ({ title, description, details, cta }: Hero) => {
+  const { trackExternalLink } = useAnalytics();
+
+  return (
+    <section className="flex flex-col gap-4 md:gap-8">
+      <h1 className="text-3xl sm:text-5xl md:text-7xl">{title}</h1>
+      <p className="text-md text-gray-500 md:text-xl">{description}</p>
+      <span className="text-md text-gray-500 md:text-lg">
+        {details.text}{" "}
+        <a
+          className="text-gray-300 hover:underline hover:text-white inline-flex items-center gap-1"
+          href={details.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          onClick={() => trackExternalLink(details.url, details.link)}
+        >
+          {details.link}
+          <RxExternalLink />
+        </a>
+        .
+      </span>
+      <a
+        className="bg-gray-900 text-gray-300 hover:bg-gray-700 transition-colors rounded-full px-4 py-2 max-w-fit mx-auto md:ml-40 inline-flex items-center gap-1 cursor-pointer mt-10 md:mt-3"
+        href={cta.url}
+        target="_blank"
+        rel="noopener noreferrer"
+        onClick={() => trackExternalLink(cta.url, cta.text)}
+      >
+        {cta.text}
+        <RxExternalLink />
+      </a>
+    </section>
+  );
 };
 
 interface FeatureListProps {
@@ -192,11 +197,7 @@ const FeatureList = ({ title, features }: FeatureListProps) => {
   );
 };
 
-interface ExampleCardProps {
-  page: Page;
-}
-
-const ExampleCard = ({ page }: ExampleCardProps) => {
+const ExampleCard = ({ title, url, image, alt }: Page) => {
   const { trackExternalLink } = useAnalytics();
   const [imageExists, setImageExists] = useState(true);
 
@@ -204,21 +205,21 @@ const ExampleCard = ({ page }: ExampleCardProps) => {
     <div className="rounded-lg overflow-hidden shadow-lg aspect-[16/9]">
       <div className="hover:scale-105 transition-transform duration-300 h-full">
         <a
-          href={page.url}
+          href={url}
           target="_blank"
           rel="noopener noreferrer"
-          onClick={() => trackExternalLink(page.url, page.title)}
+          onClick={() => trackExternalLink(url, title)}
         >
           {imageExists ? (
             <img
-              src={page.image}
-              alt={page.alt || page.title}
+              src={image}
+              alt={alt || title}
               onError={() => setImageExists(false)}
               className="w-full"
             />
           ) : (
             <div className="flex justify-center w-full h-full bg-gray-700">
-              <span className="text-2xl my-auto">{page.title}</span>
+              <span className="text-2xl my-auto">{title}</span>
             </div>
           )}
         </a>
@@ -227,12 +228,7 @@ const ExampleCard = ({ page }: ExampleCardProps) => {
   );
 };
 
-interface ContactFormProps {
-  title: string;
-  subtitle: string;
-}
-
-const ContactForm = ({ title, subtitle }: ContactFormProps) => {
+const ContactForm = ({ title, subtitle }: Contact) => {
   const emptyForm = { name: "", email: "", message: "" };
   const [formData, setFormData] = useState(emptyForm);
   const [loading, setLoading] = useState(false);
@@ -409,5 +405,24 @@ const ContactForm = ({ title, subtitle }: ContactFormProps) => {
         </button>
       </fieldset>
     </form>
+  );
+};
+
+const FooterContent = () => {
+  const currentYear = new Date().getFullYear();
+
+  return (
+    <p className="py-1.5">
+      Copyright © 2025
+      {currentYear > 2025 ? ` - ${currentYear} ` : " "}
+      <a
+        className="hover:text-white"
+        href="https://geosauer.com"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Geo Sauer
+      </a>
+    </p>
   );
 };
