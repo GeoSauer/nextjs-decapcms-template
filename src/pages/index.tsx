@@ -2,16 +2,8 @@ import Head from "next/head";
 import { GetStaticProps } from "next";
 import { getFolderMarkups } from "@/lib/utils/markdown";
 import Script from "next/script";
-import { useCallback, useState } from "react";
-import {
-  ClientFeature,
-  DevFeature,
-  Examples,
-  Features,
-  Hero,
-  Page,
-  Contact,
-} from "@/types/cms/HomePage";
+import { useCallback, useMemo, useState } from "react";
+import { ClientFeature, DevFeature, Examples, Features, Hero, Page, Contact } from "@/types/cms/HomePage";
 import { RxExternalLink, RxGithubLogo } from "react-icons/rx";
 import { useAnalytics } from "@/lib/hooks/useAnalytics";
 import { useToast } from "@/components/Toast/ToastContext";
@@ -30,10 +22,7 @@ export default function Home({ hero, features, examples, contact }: HomeProps) {
         <title>Next.js + DecapCMS Template</title>
       </Head>
       {/* include this script on '/' so that invited users can set a password */}
-      <Script
-        src="https://identity.netlify.com/v1/netlify-identity-widget.js"
-        strategy="lazyOnload"
-      />
+      <Script src="https://identity.netlify.com/v1/netlify-identity-widget.js" strategy="lazyOnload" />
       <div className="bg-gradient-to-br from-gray-700 to-gray-900 min-h-screen w-full text-gray-300 flex flex-col justify-between">
         {/* HEADER */}
         <header className="fixed w-full text-center md:text-left flex bg-gray-950 justify-between p-4 md:px-15 z-1">
@@ -129,9 +118,7 @@ const HeaderContent = () => {
         href="https://github.com/GeoSauer/nextjs-decapcms-template"
         target="_blank"
         rel="noopener noreferrer"
-        onClick={() =>
-          trackExternalLink("https://github.com/GeoSauer/nextjs-decapcms-template", "GitHub")
-        }
+        onClick={() => trackExternalLink("https://github.com/GeoSauer/nextjs-decapcms-template", "GitHub")}
       >
         <RxGithubLogo className="text-gray-950" size={30} />
       </a>
@@ -204,19 +191,9 @@ const ExampleCard = ({ title, url, image, alt }: Page) => {
   return (
     <div className="rounded-lg overflow-hidden shadow-lg aspect-[16/9]">
       <div className="hover:scale-105 transition-transform duration-300 h-full">
-        <a
-          href={url}
-          target="_blank"
-          rel="noopener noreferrer"
-          onClick={() => trackExternalLink(url, title)}
-        >
+        <a href={url} target="_blank" rel="noopener noreferrer" onClick={() => trackExternalLink(url, title)}>
           {imageExists ? (
-            <img
-              src={image}
-              alt={alt || title}
-              onError={() => setImageExists(false)}
-              className="w-full"
-            />
+            <img src={image} alt={alt || title} onError={() => setImageExists(false)} className="w-full" />
           ) : (
             <div className="flex justify-center w-full h-full bg-gray-700">
               <span className="text-2xl my-auto">{title}</span>
@@ -229,7 +206,7 @@ const ExampleCard = ({ title, url, image, alt }: Page) => {
 };
 
 const ContactForm = ({ title, subtitle }: Contact) => {
-  const emptyForm = { name: "", email: "", message: "" };
+  const emptyForm = useMemo(() => ({ name: "", email: "", message: "" }), []);
   const [formData, setFormData] = useState(emptyForm);
   const [loading, setLoading] = useState(false);
   const { addToast } = useToast();
@@ -240,12 +217,9 @@ const ContactForm = ({ title, subtitle }: Contact) => {
   // const fileInputRef = useRef<HTMLInputElement | null>(null);
   // const MAX_FILE_SIZE = 10 * 1024 * 1024; // Limit set by Netlify for file uploads (10MB)
 
-  const handleChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-      setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-    },
-    []
-  );
+  const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  }, []);
 
   // const handleFileChange = useCallback(
   //   (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -301,7 +275,7 @@ const ContactForm = ({ title, subtitle }: Contact) => {
         setLoading(false);
       }
     },
-    [emptyForm, addToast]
+    [emptyForm, addToast],
   );
 
   // TODO: uncomment these and add them to the <form> to enable file upload */
@@ -415,12 +389,7 @@ const FooterContent = () => {
     <p className="py-1.5">
       Copyright © 2025
       {currentYear > 2025 ? ` - ${currentYear} ` : " "}
-      <a
-        className="hover:text-white"
-        href="https://geosauer.com"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
+      <a className="hover:text-white" href="https://geosauer.com" target="_blank" rel="noopener noreferrer">
         Geo Sauer
       </a>
     </p>

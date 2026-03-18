@@ -4,9 +4,11 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "npm run optimize:images && npm run build:raw",
+    "build:raw": "next build",
     "start": "next start",
     "start:static": "npm run build && npx serve@latest out -p 3001",
+    "optimize:images": "node scripts/optimize-images.mjs",
     "generate:types": "node --import 'data:text/javascript,import { register } from \"node:module\"; import { pathToFileURL } from \"node:url\"; register(\"ts-node/esm\", pathToFileURL(\"./\"));' src/lib/utils/generate-types.mts",
     "lint": "next lint"
   },
@@ -31,6 +33,7 @@
     "eslint": "^9",
     "eslint-config-next": "15.1.6",
     "postcss": "^8.5.3",
+    "sharp": "^0.34.5",
     "tailwindcss": "^4.0.14",
     "ts-node": "^10.9.2",
     "typescript": "^5"

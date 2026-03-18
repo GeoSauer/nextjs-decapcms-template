@@ -4,10 +4,23 @@ import matter from "gray-matter";
 import { transformKeys } from "./misc";
 
 /**
+ * Represents parsed markdown content with frontmatter data.
+ */
+export interface ParsedMarkdown {
+  [key: string]: unknown;
+  body: string;
+}
+
+/**
  * Reads and parses a markdown file safely.
  */
-const readMarkdownFile = (filePath: string): { [key: string]: any; body: string } | null => {
+const readMarkdownFile = (filePath: string): ParsedMarkdown | null => {
   try {
+    if (!filePath || typeof filePath !== "string") {
+      console.warn("Invalid file path provided");
+      return null;
+    }
+
     if (!fs.existsSync(filePath)) {
       console.warn(`File not found: ${filePath}`);
       return null;
@@ -30,23 +43,31 @@ const readMarkdownFile = (filePath: string): { [key: string]: any; body: string 
 /**
  * Converts a specific markdown file to a structured object.
  */
-export const getMarkup = (directory: string, filename: string): Record<string, any> => {
+export const getMarkup = (directory: string, filename: string): ParsedMarkdown => {
+  if (!directory || !filename) {
+    console.warn("Directory and filename are required");
+    return { body: "" };
+  }
+
   if (!filename.endsWith(".md")) {
     console.warn(`Invalid file type: ${filename}`);
-    return {};
+    return { body: "" };
   }
 
   const filePath = path.join(process.cwd(), directory, filename);
-  return readMarkdownFile(filePath) || {};
+  return readMarkdownFile(filePath) || { body: "" };
 };
 
 /**
  * Reads all markdown files in a given directory and returns structured objects.
  */
-export const getFolderMarkups = (
-  directory: string
-): Record<string, { [key: string]: any; body: string }> => {
+export const getFolderMarkups = (directory: string): Record<string, ParsedMarkdown> => {
   try {
+    if (!directory || typeof directory !== "string") {
+      console.warn("Directory path is required and must be a string");
+      return {};
+    }
+
     const directoryPath = path.join(process.cwd(), directory);
 
     if (!fs.existsSync(directoryPath)) {
@@ -61,7 +82,7 @@ export const getFolderMarkups = (
       return {};
     }
 
-    const markups: Record<string, { [key: string]: any; body: string }> = {};
+    const markups: Record<string, ParsedMarkdown> = {};
 
     for (const filename of files) {
       const filePath = path.join(directoryPath, filename);

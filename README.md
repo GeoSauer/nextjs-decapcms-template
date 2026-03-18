@@ -31,6 +31,8 @@ All of the building blocks are already in place, but there's a few steps necessa
 
 _**Note**_ - Since this project utilizes DecapCMS (formerly Netlify CMS) it **must** be deployed on Netlify
 
+[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/GeoSauer/nextjs-decapcms-template)
+
 - After cloning the repo and installing dependencies, go ahead and deploy it on Netlify. During deploy ensure that the publish directory is set to 'out'.
 - Navigate to `Site configuration/Identity/Registration` - choose between 'open' or 'invite only', you'll probably want to choose the latter.
 - Navigate to `Site configuration/Identity/Users` - invite yourself/client. Be sure to open the invite email and create a password for your profile.
